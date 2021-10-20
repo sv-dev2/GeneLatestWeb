@@ -19,8 +19,12 @@ namespace InsuranceClaim.Models
 
         public string Location_Id { get; set; }
         public bool Status { get; set; }
+        public string Partners { get; set; }
+        public int PartnersId { get; set; }
 
         public bool StatusActive { get; set; }
         public bool StatusDeActive { get; set; }
+
+   
     }
 }

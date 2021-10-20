@@ -90,6 +90,7 @@ namespace InsuranceClaim.Models
     {
         public string AgentName { get; set; }
         public string Policy_Number { get; set; }
+        public string RenewPolicyNumber { get; set; }
         public string VRN { get; set; }
         public string Transaction_date { get; set; }
         public string Customer_Name { get; set; }

@@ -23,6 +23,11 @@ using System.Drawing;
 
 namespace InsuranceClaim.Controllers
 {
+
+    class AccountSend { 
+        private String name { get; set; }
+        private String home { get; set; }
+    }
     
     [Authorize]
     [HandleError]
@@ -136,6 +141,10 @@ namespace InsuranceClaim.Controllers
                     if (role == "Administrator" || role == "SuperUser" || role == "Agent" || role == "AgentStaff" || role == "Reports" || role == "Finance" || role == "Claim" || role == "Team Leaders" || role == "Zimnata")
                     {
                         return RedirectToAction("Dashboard", "Account");
+                    }
+                    else if(role == "Customer" || role == "Web Customer")
+                    {
+                        return RedirectToAction("MyPolicy", "Account");
                     }
                     else
                     {
@@ -1367,9 +1376,6 @@ namespace InsuranceClaim.Controllers
                 var phone = user.PhoneNumber;
                 var role = UserManager.GetRoles(data.UserID).FirstOrDefault();
 
-
-
-
                 obj.FirstName = data.FirstName;
                 obj.LastName = data.LastName;
                 obj.AddressLine1 = data.AddressLine1;
@@ -1389,8 +1395,6 @@ namespace InsuranceClaim.Controllers
 
             }
             return View(obj);
-
-
         }
 
         [HttpPost]
@@ -1413,9 +1417,7 @@ namespace InsuranceClaim.Controllers
             {
                 return RedirectToAction("Index", "CustomerRegistration");
             }
-
-
-
+ 
             if (model.Id == 0)
             {
                 reDirectTo = "UserManagementList";
@@ -1424,7 +1426,17 @@ namespace InsuranceClaim.Controllers
                 {
                     decimal custId = 0.00m;
                     var user = new ApplicationUser { UserName = model.EmailAddress, Email = model.EmailAddress, PhoneNumber = model.PhoneNumber };
-                    var result = await UserManager.CreateAsync(user, "Geninsure@123");
+
+                    RandomPwd rnd = new RandomPwd();
+                    var randomPwd = rnd.RandomPassword();
+
+
+                    string pwd = "cH4ngEm3n0W";
+                    if (model.role == "Customer" || model.role == "Web Customer")
+                        pwd = "Geninsure@123";
+                    
+
+                        var result = await UserManager.CreateAsync(user, pwd);
                     if (result.Succeeded)
                     {
                         var currentUser = UserManager.FindByName(user.UserName);
@@ -2172,7 +2184,7 @@ namespace InsuranceClaim.Controllers
 
             //(int)ALMBranch.GeneCallCentre
 
-            var query = "   select top 500 PolicyDetail.PolicyNumber as Policy_Number, VehicleDetail.ALMBranchId,  Customer.PhoneNumber, ";
+            var query = "   select  PolicyDetail.PolicyNumber as Policy_Number, VehicleDetail.ALMBranchId,  Customer.PhoneNumber, ";
             query += " case when VehicleDetail.ALMBranchId = 0  then[dbo].fn_GetUserCallCenterAgent(SummaryDetail.CreatedBy) else [dbo].fn_GetUserALM(VehicleDetail.ALMBranchId) end  as PolicyCreatedBy, Customer.FirstName + ' ' + Customer.LastName as CustomerName, ";
             query += " VehicleDetail.CoverStartDate, VehicleDetail.CoverEndDate, VehicleDetail.LicExpiryDate, VehicleDetail.RegistrationNo, ";
             query += " VehicleMake.MakeDescription , VehicleModel.ModelDescription, SummaryDetail.TotalPremium, ";
@@ -2641,7 +2653,7 @@ namespace InsuranceClaim.Controllers
 
             //(int)ALMBranch.GeneCallCentre
 
-            var query = "   select top 500 PolicyDetail.PolicyNumber as Policy_Number, VehicleDetail.ALMBranchId,  Customer.PhoneNumber, ";
+            var query = "   select  PolicyDetail.PolicyNumber as Policy_Number, VehicleDetail.ALMBranchId,  Customer.PhoneNumber, ";
             query += " case when VehicleDetail.ALMBranchId = 0  then[dbo].fn_GetUserCallCenterAgent(SummaryDetail.CreatedBy) else [dbo].fn_GetUserALM(VehicleDetail.ALMBranchId) end  as PolicyCreatedBy, Customer.FirstName + ' ' + Customer.LastName as CustomerName, ";
             query += " VehicleDetail.CoverStartDate, VehicleDetail.CoverEndDate, VehicleDetail.LicExpiryDate, VehicleDetail.RegistrationNo, ";
             query += " VehicleMake.MakeDescription , VehicleModel.ModelDescription, SummaryDetail.TotalPremium, ";
@@ -2669,8 +2681,8 @@ namespace InsuranceClaim.Controllers
                 AgentName = c.PolicyCreatedBy,
                 CustomerName = c.CustomerName,
                 CustomerContactNumber = c.PhoneNumber,
-                TotalPremium = Convert.ToDecimal(c.TotalPremium),
-                TotalSumInsured = Convert.ToDecimal(c.SumInsured),
+                TotalPremium = c.TotalPremium==null? 0 : Convert.ToDecimal(c.TotalPremium),
+                TotalSumInsured = c.SumInsured==null? 0: Convert.ToDecimal(c.SumInsured),
                 // SummaryId = c.Id,
                 // createdOn = Convert.ToDateTime(c.CreatedOn),
                 PolicyNumber = c.Policy_Number,
@@ -2768,8 +2780,8 @@ namespace InsuranceClaim.Controllers
                 AgentName = c.PolicyCreatedBy,
                 CustomerName = c.CustomerName,
                 CustomerContactNumber = c.PhoneNumber,
-                TotalPremium = Convert.ToDecimal(c.TotalPremium),
-                TotalSumInsured = Convert.ToDecimal(c.SumInsured),
+                TotalPremium = c.TotalPremium==null? 0 : Convert.ToDecimal(c.TotalPremium),
+                TotalSumInsured = c.SumInsured==null?0: Convert.ToDecimal(c.SumInsured),
                 LicExpDate = c.LicExpiryDate,
                 // SummaryId = c.Id,
                 // createdOn = Convert.ToDateTime(c.CreatedOn),
@@ -2824,6 +2836,9 @@ namespace InsuranceClaim.Controllers
             Session.Remove("ReSummaryDetailed");
             Session.Remove("CheckRenewVehicleDetails");
             Session.Remove("ReCustomerDataModal");
+            Session.Remove("VehicleDetails");
+            Session.Remove("CustomerDataModal");
+
         }
 
         // GET: Dashboard
@@ -3123,23 +3138,23 @@ namespace InsuranceClaim.Controllers
 
             List<PolicyListViewModel> list = InsuranceContext.Query(query).Select(x => new PolicyListViewModel()
             {
+                PolicyId = x.PolicyId,
                 PolicyNumber = x.PolicyNumber,
-                CustomerId = x.CustomerId,
                 CustomerName = x.CustomerName,
+                CustomerId = x.CustomerId,
                 PaymentMethod = x.PaymentMethod,
-                TotalSumInsured = x.TotalSumInsured,
-                TotalPremium = x.TotalPremium,
+                TotalSumInsured = x.TotalSumInsured == null ? 0 : x.TotalSumInsured,
+                TotalPremium = x.TotalPremium == null ? 0 : x.TotalPremium,
                 createdOn = x.CreatedOn,
                 SummaryId = x.Id,
                 RegisterationNumber = x.RegistrationNo,
                 Make = x.Make,
                 Model = x.Model,
                 Currency = x.currency,
-                VehicleSumInsured = x.SumInsured,
+                VehicleSumInsured = x.SumInsured == null ? 0 : x.SumInsured,
                 isLapsed = x.isLapsed,
-                IsActive = x.IsActive,
+                IsActive = x.IsActive == null ? true : x.IsActive,
                 VehicleDetailId = x.VehicleId,
-                //RenewalDate = x.RenewalDate == null ? "" : Convert.ToString(x.RenewalDate),
                 RenewalDate = GetRenewalDate(x.RenewalDate == null ? "" : Convert.ToDateTime(x.RenewalDate).ToShortDateString(), x.LicExpiryDate),
                 RenewPolicyNumber = x.RenewPolicyNumber,
                 BrokerCommission = x.ReinsuranceCommission == null ? 0 : Convert.ToDecimal(x.ReinsuranceCommission),
@@ -3149,6 +3164,9 @@ namespace InsuranceClaim.Controllers
                 FacReinsuranceAmount = x.ReinsuranceAmount == null ? 0 : Convert.ToDecimal(x.ReinsuranceAmount),
                 PaymentStatus = GetPaymentStatus(recieptList, x.RenewPolicyNumber, x.PolicyId, x.PaymentMethod),
                 IsExistOnSummaryVehcile = CheckVehicleExistOnSummaryVehicle(summaryVehicleList, x.VehicleId)
+
+
+
             }).ToList();
 
 
@@ -3670,6 +3688,10 @@ namespace InsuranceClaim.Controllers
             if (role == "Staff" || role == "Team Leaders" || role == "Agent")
             {
                 query += " and SummaryDetail.CreatedBy= " + customerID;
+            }
+           else if (role == "Customer" || role == "Web Customer")
+            {
+                query += " and VehicleDetail.CustomerId= " + customerID;
             }
 
             query +=" order by VehicleDetail.TransactionDate desc";
@@ -5471,7 +5493,7 @@ namespace InsuranceClaim.Controllers
 
             var SummaryList = new List<SummaryDetail>();
 
-            if (role == "Staff")
+            if (role == "Staff" || role == "Agent" || role == "Renewals")
             {
                 SummaryList = InsuranceContext.SummaryDetails.All(where: $"CreatedBy={customerID} and isQuotation = 'True'").OrderByDescending(x => x.Id).ToList();
             }

@@ -232,7 +232,11 @@
         $("#txtPolicyNumber").blur(function () {
             debugger;
             chkPolicyNumber();
-            $("#txtPolicyNumber").val();
+            // $("#txtPolicyNumber").val();
+
+            if ($("#txtPolicyNumber").val()!="")
+            {
+
             $.ajax({
                 url: "/CustomerRegistration/GetCustomername",
                 async: false,
@@ -261,7 +265,7 @@
                     alert("error");
                 }
             })
-
+            }
 
         });
         $("#ReceiptAmount").keyup(function () {

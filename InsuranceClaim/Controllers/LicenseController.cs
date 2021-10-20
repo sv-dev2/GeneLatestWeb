@@ -62,6 +62,8 @@ namespace InsuranceClaim.Controllers
 
                 if (currency != null)
                     item.CurrencyName = currency.Name;
+
+                ViewBag.SummaryId = item.SummaryId;
             }
 
             model.TotalRadioLicenseCost = Math.Round(Convert.ToDecimal(model.TotalRadioLicenseCost), 2);
@@ -94,6 +96,7 @@ namespace InsuranceClaim.Controllers
             }
 
             model.PaymentMethodId = (int)paymentMethod.Cash;
+            
 
             return View(model);
         }
@@ -134,11 +137,13 @@ namespace InsuranceClaim.Controllers
                     model.vehicleindex = 1;
                     List<RiskDetailModel> listriskdetailmodel = new List<RiskDetailModel>();
                     model.PaymentTermId = Convert.ToInt32(model.ZinaraLicensePaymentTermId);
+                    model.SummaryId = model.SummaryId;
                     listriskdetailmodel.Add(model);
                     Session["VehicleDetails"] = listriskdetailmodel;
                 }
                 catch (Exception ex)
                 {
+                    var result = ex.Message;
                     return RedirectToAction("LicenseDetail", "License");
                 }
 
@@ -168,7 +173,9 @@ namespace InsuranceClaim.Controllers
                     customerModel.EmailAddress = user.Email;
 
                 Session["CustomerDataModal"] = customerModel;
-            }                                                                                                    
+            }
+            
+                                                                                                             
 
             ProductDetail();
 
@@ -185,13 +192,38 @@ namespace InsuranceClaim.Controllers
             // model.RegistrationNo = vehileList[0].RegistrationNo;
 
             ViewBag.Vehicles = GetActiveVehiclesBySummaryId(summaryId);
-
- 
             model.NoOfCarsCovered = 1;
-
+            model.SummaryId = summaryId;
             VehicleService service = new VehicleService();
 
-           
+            if(Session["VehicleDetails"]!=null)
+            {
+                try
+                {
+                    List<RiskDetailModel> listriskdetailmodel = (List<RiskDetailModel>)Session["VehicleDetails"];
+
+                    var vehicleDetial = listriskdetailmodel[0];
+                    model.ProductId = vehicleDetial.ProductId;
+                    model.IncludeLicenseFee = vehicleDetial.IncludeLicenseFee;
+                    model.IncludeRadioLicenseCost = vehicleDetial.IncludeRadioLicenseCost;
+                    model.ZinaraLicensePaymentTermId = vehicleDetial.ZinaraLicensePaymentTermId;
+                    model.RadioLicensePaymentTermId = vehicleDetial.RadioLicensePaymentTermId;
+                    model.ArrearsAmt = vehicleDetial.ArrearsAmt;
+                    model.PenaltiesAmt = vehicleDetial.PenaltiesAmt;
+                    model.TransactionAmt = vehicleDetial.TransactionAmt;
+                    model.VehicleLicenceFee = vehicleDetial.VehicleLicenceFee;
+                    model.RadioLicenseCost = vehicleDetial.RadioLicenseCost;
+                    model.LicenseId = vehicleDetial.LicenseId;
+                    model.LicExpiryDate = vehicleDetial.LicExpiryDate;
+                }
+                catch(Exception ex)
+                {
+
+                }
+
+              
+
+            }
 
 
             return View(model);
@@ -384,9 +416,9 @@ namespace InsuranceClaim.Controllers
 
                                 item.IceCashRequest = "License";
                                 if (item.RadioLicenseCost > 0)  // for now 
-                                    item.IncludeRadioLicenseCost = true;
+                                    item.IncludeRadioLicenseCost = Convert.ToBoolean(true);
 
-                                if (item.LicExpiryDate!="")
+                                if (item.LicExpiryDate!=null && item.LicExpiryDate!="")
                                 {
                                     DateTime LicExpiryDate = DateTime.ParseExact(item.LicExpiryDate, format, CultureInfo.InvariantCulture);
                                     item.LicExpiryDate = LicExpiryDate.ToShortDateString();

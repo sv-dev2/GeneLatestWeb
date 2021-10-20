@@ -27,6 +27,12 @@ using Webdev.Payments;
 
 namespace InsuranceClaim.Controllers
 {
+
+    class UserManulaModel {
+    private String name { get; set; }
+        private int age { get; set; }
+    }
+
     [HandleError]
     public class CustomerRegistrationController : Controller
     {
@@ -612,9 +618,6 @@ namespace InsuranceClaim.Controllers
             return View(viewModel);
         }
 
-
-
-
         public void SetValueIntoSession(int summaryId)
         {
             Session["ICEcashToken"] = null;
@@ -660,7 +663,7 @@ namespace InsuranceClaim.Controllers
                 model.ErrorMessage = "Vehicle Registration number already exist.";
                 TempData["ViewModel"] = model;
 
-                if (User.IsInRole("Staff"))
+                if (User.IsInRole("Staff") || User.IsInRole("Agent") || User.IsInRole("Team Leaders") || User.IsInRole("Administrator"))
                     return RedirectToAction("RiskDetail", "ContactCentre", new { id = 1 });
                 else
                     return RedirectToAction("RiskDetail", new { id = 1 });
@@ -888,6 +891,11 @@ namespace InsuranceClaim.Controllers
                             ModelState.Remove("CoverEndDate");
                             model.CoverEndDate = Convert.ToDateTime(endDate, usDtfi);
                         }
+
+
+
+
+
                         if (ModelState.IsValid)
                         {
                             model.Id = 0;
@@ -914,6 +922,15 @@ namespace InsuranceClaim.Controllers
                             listriskdetailmodel.Add(model);
                             Session["VehicleDetails"] = listriskdetailmodel;
 
+                        }
+                        else
+                        {
+                            var query = from state in ModelState.Values
+                                        from error in state.Errors
+                                        select error.ErrorMessage;
+
+                            var errorList = query.ToList();
+                            
                         }
 
                         return RedirectToAction("SummaryDetail");
@@ -1566,7 +1583,6 @@ namespace InsuranceClaim.Controllers
                                 if (customerDetials != null)
                                 {
                                     customer.Id = customerDetials.Id;
-
                                     CustomerUniquId = customerDetials.Id;
 
 
@@ -1580,13 +1596,12 @@ namespace InsuranceClaim.Controllers
                                     //        return RedirectToAction("SummaryDetail");
                                     //    }
                                     //}
-
-
                                 }
-
                             }
                         }
 
+                        RandomPwd rnd = new RandomPwd();
+                        var randomPwd = rnd.RandomPassword();
 
                         if (!userLoggedin && userDetials == null)  // create new user without logged in
                         {
@@ -1597,9 +1612,9 @@ namespace InsuranceClaim.Controllers
                                     decimal custId = 0;
                                     var user = new ApplicationUser { UserName = customer.EmailAddress, Email = customer.EmailAddress, PhoneNumber = customer.PhoneNumber };
                                     var result = await UserManager.CreateAsync(user, "Geninsure@123");
+                                   // var result = await UserManager.CreateAsync(user, randomPwd);
 
                                     SaveUserPasswordDetails(user);
-
 
                                     if (result.Succeeded)
                                     {
@@ -1640,6 +1655,8 @@ namespace InsuranceClaim.Controllers
 
                                 var user = new ApplicationUser { UserName = customer.EmailAddress, Email = customer.EmailAddress, PhoneNumber = customer.PhoneNumber };
                                 var result = await UserManager.CreateAsync(user, "Geninsure@123");
+
+                              //  var result = await UserManager.CreateAsync(user, randomPwd);
 
                                 SaveUserPasswordDetails(user);
 
@@ -2817,6 +2834,7 @@ namespace InsuranceClaim.Controllers
             }
         }
 
+
         public PayNowModel PayNow(int summaryId, string invoiceNumber, int paymentId, decimal totalPremium)
         {
             PayNowModel payNowModel = new PayNowModel();
@@ -3514,6 +3532,17 @@ namespace InsuranceClaim.Controllers
                             quoteresponse.Response.Quotes[0].Vehicle.YearManufacture = year.ToString();
                         }
 
+                        if(quoteresponse.Response.Quotes[0]!=null && quoteresponse.Response.Quotes[0].Policy!=null)
+                        {
+                            string format = "yyyyMMdd";
+                            DateTime StartDate = DateTime.ParseExact(quoteresponse.Response.Quotes[0].Policy.StartDate, format, CultureInfo.InvariantCulture);
+                            DateTime EndDate = DateTime.ParseExact(quoteresponse.Response.Quotes[0].Policy.EndDate, format, CultureInfo.InvariantCulture);
+                            quoteresponse.Response.Quotes[0].Policy.StartDate = StartDate.ToShortDateString();
+
+                            quoteresponse.Response.Quotes[0].Policy.EndDate = EndDate.ToShortDateString();
+
+                        }
+
 
                         if (quoteresponse.Response.Quotes[0] != null && quoteresponse.Response.Quotes[0].Licence != null)
                         {
@@ -3629,22 +3658,17 @@ namespace InsuranceClaim.Controllers
                         if (quoteresponse.Response.Quotes[0] != null)
                         {
                             decimal penaltiesAmt = quoteresponse.Response.Quotes[0].PenaltiesAmt == null ? 0 : Convert.ToDecimal(quoteresponse.Response.Quotes[0].PenaltiesAmt);
-                            decimal administrationAmt = quoteresponse.Response.Quotes[0].AdministrationAmt == null ? 0 : Convert.ToDecimal(quoteresponse.Response.Quotes[0].AdministrationAmt);
+                          //  decimal administrationAmt = quoteresponse.Response.Quotes[0].AdministrationAmt == null ? 0 : Convert.ToDecimal(quoteresponse.Response.Quotes[0].AdministrationAmt);
 
 
                             // default administration amount
-                            decimal administratationAmt = 450;  //188;
+                            decimal administratationAmt = quoteresponse.Response.Quotes[0].AdministrationAmt == null ? 0 : Convert.ToDecimal(quoteresponse.Response.Quotes[0].AdministrationAmt); //450;  //188;
                             quoteresponse.Response.Quotes[0].AdministrationAmt = administratationAmt.ToString();
                             decimal ArrearsAmt = quoteresponse.Response.Quotes[0].ArrearsAmt == null ? 0 : Convert.ToDecimal(quoteresponse.Response.Quotes[0].ArrearsAmt);
                             decimal transactionAmt = quoteresponse.Response.Quotes[0].TransactionAmt == null ? 0 : Convert.ToDecimal(quoteresponse.Response.Quotes[0].TransactionAmt);
 
                             decimal totalLicAmount = ArrearsAmt + transactionAmt + administratationAmt + penaltiesAmt;
                             quoteresponse.Response.Quotes[0].TotalLicAmt = totalLicAmount.ToString();
-
-
-
-
-
 
                         }
                     }
@@ -3842,14 +3866,14 @@ namespace InsuranceClaim.Controllers
             {
                 uniqueId = Convert.ToInt32(dbCustomer.UniqueCustomerId);
                 uniqueId = uniqueId + 1;
-                customerUserId = "Guest-" + uniqueId + "@gmail.com";
+                customerUserId = "Guest-" + uniqueId + "@geneinsure.co.zw";
                 var uniquCustomer = new UniqueCustomer { UniqueCustomerId = uniqueId, CreatedOn = DateTime.Now };
                 InsuranceContext.UniqueCustomers.Insert(uniquCustomer);
             }
             else
             {
                 uniqueId = 1000;
-                customerUserId = "Guest-" + uniqueId + "@gmail.com";
+                customerUserId = "Guest-" + uniqueId + "@geneinsure.com";
                 var uniquCustomer = new UniqueCustomer { UniqueCustomerId = uniqueId, CreatedOn = DateTime.Now };
                 InsuranceContext.UniqueCustomers.Insert(uniquCustomer);
             }
@@ -4374,7 +4398,7 @@ namespace InsuranceClaim.Controllers
 
             if (detail != null)
             {
-                var invoicenumber = InsuranceContext.PaymentInformations.Single(where: $"PolicyId = '{detail.Id}'");
+                var invoicenumber = InsuranceContext.PaymentInformations.All(where: $"PolicyId = '{detail.Id}'").ToList().OrderByDescending(c=>c.Id).FirstOrDefault();
                 var customerdetail = InsuranceContext.Customers.Single(where: $"Id='{detail.CustomerId}'");
                 var summarydetail = InsuranceContext.SummaryDetails.Single(where: $"Id='{invoicenumber.SummaryDetailId}'");
                 // var policyId = InsuranceContext.PaymentInformations.Single(where: $"PolicyId = '{detail.Id}'");

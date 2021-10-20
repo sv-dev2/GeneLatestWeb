@@ -87,6 +87,7 @@
                             @Html.HiddenFor(m => m.LicExpiryDate)
                             @Html.HiddenFor(m => m.CombinedID)
                             @Html.HiddenFor(m => m.PaymentTermId)
+                            @Html.HiddenFor(m => m.SummaryId)
 
                         </div>
 
@@ -150,7 +151,7 @@
 
                                         <div class="col-sm-6 col-md-6 form-group-select">
                                             <div class="form-group">
-                                                @*@Html.TextBoxFor(x => x.PolicyName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Policy Name" })*@
+                                              
                                                 @Html.Label("Product", new { @class = "gender-label" })
                                                 @Html.DropDownListFor(x => x.ProductId, new SelectList(ViewBag.Products, "Id", "ProductName"), "Select Product Type", new { @class = "form-control" })
                                                
@@ -191,8 +192,7 @@
 
                                         <div class="col-sm-6 col-md-6 form-group-select">
                                             <div class="form-group" id="divRadioLicense">
-                                                @Html.Label("Radio License Payment Term", new { @class = "gender-label" })
-                                                @*@Html.DropDownListFor(x => x.PaymentTermId, ViewBag.ePaymentTermData as SelectList, "Select Payment Term", new { @class = "form-control" })*@
+                                                @Html.Label("Radio License Payment Term", new { @class = "gender-label" })                                     
                                                 @Html.DropDownListFor(x => x.RadioLicensePaymentTermId, new SelectList(ViewBag.RadioLicensePaymentTermId, "Id", "Name"), "Select Payment Term", new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(x => x.RadioLicensePaymentTermId, "", new { @class = "text-danger" })
                                             </div>
@@ -263,9 +263,7 @@
                                     </div>
 
 
-
                                     <hr class="higlighter" />
-
                                     <hr />
                                     <div class="row">
                                         <div class="col-md-12 next-btn">
@@ -453,6 +451,17 @@
             return false;
         }
     });
+
+
+    
+    $("#IncludeRadioLicenseCost").click(function () {
+        debugger;
+        if ($(this).is(":checked")) {            
+            } else {
+                $("#RadioLicenseCost").val('');
+            }
+        });
+   
 
 
     $("#inputcheckbox").click(function(){
@@ -713,7 +722,10 @@
 
     $(document).ready(function () {
 
-       
+
+
+
+
 
         $("#datetimepicker2").datetimepicker({
             format: 'MM/D/YYYY',
@@ -756,14 +768,21 @@
         }
 
 
-        $("#isVehicleRegisteredonICEcash").val(0);
+        //$("#isVehicleRegisteredonICEcash").val(0);
 
+        debugger;
 
-
-        if (@Model.ProductId != null && @Model.ProductId > 0)
+        if ('@Model.ProductId' != null && '@Model.ProductId' > 0)
         {
             $("#ProductId").val('@Model.ProductId');
         }
+
+        if ('@Model.RadioLicensePaymentTermId' != null && '@Model.RadioLicensePaymentTermId' > 0)
+        {
+            $("#RadioLicensePaymentTermId").val('@Model.RadioLicensePaymentTermId');
+        }
+
+
     });
 
 
@@ -853,7 +872,7 @@
                 cache: false,
                 type: "POST",
                 url: "@Url.Action("getLicenseDetailsFromICEcash", "CustomerRegistration")",
-                data: { regNo: $("#RegistrationNo").val(), ProductId : $("#ProductId").val(), licensePaymentTerm : $("#ZinaraLicensePaymentTermId").val(), RadioLicensePaymentTermId : $("#RadioLicensePaymentTermId").val(),VehilceLicense : isLicense, RadioLicense:isRadioLicense  },
+                data: { regNo: $("#RegistrationNo").val(), ProductId : $("#ProductId").val(), zinaraPaymentTermId : $("#ZinaraLicensePaymentTermId").val(), radioPaymentTermId : $("#RadioLicensePaymentTermId").val(),VehilceLicense : isLicense, RadioLicense:isRadioLicense  },
                 success: function (data) {
                     debugger;
                     if (data.result == 0) {
@@ -886,6 +905,11 @@
                             {
                                 $("#RadioLicenseCost").val(parseFloat(data.Data.Response.Quotes[0].TotalRadioTVAmt).toFixed(2));
                             }
+                            else
+                            {
+                                $("#RadioLicenseCost").val("");
+                            }
+
 
                             var totalLicFee= arrAmount+ penaltiesAmount + transactionAmt + administrationAmt;
                             $("#VehicleLicenceFee").val(parseFloat(data.Data.Response.Quotes[0].TotalLicAmt).toFixed(2) );

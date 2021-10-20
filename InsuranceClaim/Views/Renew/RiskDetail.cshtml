@@ -958,7 +958,7 @@
         $('#ZinaraLicensePaymentTermId').change(function(){
             var selectedMinValue = Number($(this).val());
             var selectedMaxValue = Number($('#PaymentTermId').val());
-        
+
             if(selectedMaxValue==4 && selectedMinValue==1 )
             {
                 alert('!!Vehicle license payment Term always will be equal or less then Payment term!!');
@@ -972,14 +972,14 @@
             else if( selectedMinValue > 0 && selectedMaxValue === 0) {
                 alert('Please select Payment Term First!!');
                 $(this).find('option:first').attr('selected', 'selected'); //reset the second dropdown list
-            }       
-       
+            }
+
         });
     });
 
 
     $(function(){
-     
+
         $('#RadioLicensePaymentTermId').change(function(){
             var selectedMinValue = Number($(this).val());
             var selectedMaxValue = Number($('#PaymentTermId').val());
@@ -989,7 +989,7 @@
                 alert('!!Vehicle license payment Term always will be equal or less then Payment term!!');
                 $(this).find('option:first').attr('selected', 'selected'); //reset the second dropdown list
             }
-        
+
             else if( selectedMaxValue > 1  && selectedMinValue > selectedMaxValue ) {
                 alert('!!Radio license payment Term always will be equal or less then Payment term!!');
                 $(this).find('option:first').attr('selected', 'selected'); //reset the second dropdown list
@@ -997,8 +997,8 @@
             else if( selectedMinValue > 0 && selectedMaxValue === 0) {
                 alert('Please select Payment Term First!!');
                 $(this).find('option:first').attr('selected', 'selected'); //reset the second dropdown list
-            }       
-       
+            }
+
         });
     });
 
@@ -1192,6 +1192,21 @@
             minDate: new Date()
         });
 
+
+        if ('@Model.ZinaraLicensePaymentTermId' != null && '@Model.ZinaraLicensePaymentTermId' > 0)
+        {
+            $("#ZinaraLicensePaymentTermId").val('@Model.ZinaraLicensePaymentTermId');
+        }
+
+        if ('@Model.RadioLicensePaymentTermId' != null && '@Model.RadioLicensePaymentTermId' > 0)
+        {
+            $("#RadioLicensePaymentTermId").val('@Model.RadioLicensePaymentTermId');
+        }
+
+
+
+
+
         if (parseInt($("#NoOfCarsCovered").val()) > 0) {
             $.ajax({
                 type: "POST",
@@ -1282,12 +1297,12 @@
             $("#VehicleUsage").val('@Model.VehicleUsage');
         }
 
-        if (@Model.PaymentTermId != null && @Model.PaymentTermId > 0)
+        if ('@Model.PaymentTermId' != null && '@Model.PaymentTermId' > 0)
         {
             $("#PaymentTermId").val('@Model.PaymentTermId');
         }
 
-        if (@Model.ProductId != null && @Model.ProductId > 0)
+        if ('@Model.ProductId' != null && '@Model.ProductId' > 0)
         {
             $("#ProductId").val('@Model.ProductId');
         }
@@ -1660,7 +1675,7 @@
                     CalculatePremiumByCoverType();
                 }, 1000);
             }
-           
+
         });
 
         //$("#RegistrationNo").change(function(){

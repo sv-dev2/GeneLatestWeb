@@ -205,7 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Insurance.Domain\Insurance.Domain.csproj">
-      <Project>{91022542-0A04-430F-AFE0-D0172C5C866E}</Project>
+      <Project>{91022542-0a04-430f-afe0-d0172c5c866e}</Project>
       <Name>Insurance.Domain</Name>
     </ProjectReference>
   </ItemGroup>

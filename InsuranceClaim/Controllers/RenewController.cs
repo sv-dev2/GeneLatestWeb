@@ -850,6 +850,10 @@ namespace InsuranceClaim.Controllers
                         viewModels.TaxClassId = data.TaxClassId;
                         viewModels.CombinedID = data.CombinedID;
 
+                        viewModels.ZinaraLicensePaymentTermId = data.ZinaraLicensePaymentTermId;
+                        viewModels.RadioLicensePaymentTermId = data.RadioLicensePaymentTermId;
+
+
                         var ser = new VehicleService();
                         var model = ser.GetModel(data.MakeId);
                         ViewBag.Model = model;

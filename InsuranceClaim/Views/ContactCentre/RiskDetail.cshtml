@@ -178,7 +178,7 @@
                                             <div class="col-sm-6 col-md-6 form-group-select">
                                                 <div class="form-group">
                                                     @Html.Label("Cover Type", new { @class = "gender-label" })
-                                                    @Html.DropDownListFor(x => x.CoverTypeId, new SelectList(ViewBag.CoverType, "id", "Name"), "Select Cover Type", new { @class = "form-control" })
+                                                    @Html.DropDownListFor(x => x.CoverTypeId, new SelectList(ViewBag.CoverType, "id", "Name"), "Select Cover Type", new { @class = "form-control", @onchange = "changetextbox();" })
                                                     @Html.ValidationMessageFor(x => x.CoverTypeId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -1008,9 +1008,6 @@
                 CalculatePremiumByCoverType();
             }, 1000);
         }
-
-
-
     });
 
 
@@ -1040,60 +1037,6 @@
             }
         });
     }
-
-
-
-    @*function GetLicenseFee()
-    {
-
-        var isChecked = $("#IncludeLicenseFee").is(":checked");
-
-        if(isChecked)
-        {
-            $(".loading-area").show();
-            $.ajax({
-                url: "@Url.Action("GetZinaraLicenseFee", "CustomerRegistration")",
-                type: "POST",
-                data: { regNo:  $("#RegistrationNo").val() , paymentTerm:  $("#PaymentTermId").val()  },
-                dataType: "json",
-                success: function (result) {
-
-                    if(result.Response!=null && result.Response.Quotes[0]!=null)
-                    {
-                        var message= result.Response.Message
-                        var response = message.match("1 failed");
-
-                        if(response!=null &&  response.length>0)
-                        {
-                            alert(result.Response.Quotes[0].Message);
-                        }
-                        else
-                        {
-                            $("#LicenseId").val(result.Response.Quotes[0].LicenceID);
-                            $("#VehicleLicenceFee").val(result.Response.Quotes[0].TotalLicAmt);
-                            $("#LicExpiryDate").val(result.Response.Quotes[0].LicExpiryDate);
-                        }
-                    }
-
-                    $(".loading-area").hide();
-
-
-                }
-            });
-
-
-
-        }
-        else
-        {
-            $("#LicenseId").val("");
-            $("#VehicleLicenceFee").val("0");
-            $("#LicExpiryDate").val("");
-        }
-
-
-    }*@
-
 
 
 </script>
@@ -1421,11 +1364,12 @@
             CalculatePremiumByCoverType();
             // GetRadioLicenseCost();
 
-
-
-
         });
 
+
+        $('#RegistrationNo').bind("cut copy paste",function(e) {
+            e.preventDefault();
+        });
 
         isReinsuranceConfirmed = false;
         getVehicleList();
@@ -2051,6 +1995,7 @@
                         $("#LicExpiryDate").val("");
                         $("#CombinedID").val("");
                         $("#isVehicleRegisteredonICEcash").val(0);
+                        
                     }
                     if (data.result == 1) {
 
@@ -2084,8 +2029,13 @@
 
                         $("#InsuranceId").val(data.Data.Response.Quotes[0].InsuranceID); // 25_march 2019
 
+                        debugger;
                         var policy = {};
                         policy = data.Data.Response.Quotes[0].Policy;
+
+                        $("#CoverStartDate").val(policy.StartDate);
+                        $("#CoverEndDate").val(policy.EndDate);
+                        
 
                         if(data.Data.Response.Quotes[0]!=null && data.Data.Response.Quotes[0].Licence!=null)
                         {
@@ -2093,10 +2043,8 @@
 
                             var arrAmount = parseFloat(data.Data.Response.Quotes[0].Licence.ArrearsAmt).toFixed(2);
                             var penaltiesAmount = parseFloat(data.Data.Response.Quotes[0].Licence.PenaltiesAmt).toFixed(2);
-
                             var transactionAmt = parseFloat(data.Data.Response.Quotes[0].Licence.TransactionAmt).toFixed(2);
                             var administrationAmt = parseFloat(data.Data.Response.Quotes[0].Licence.AdministrationAmt).toFixed(2);
-
 
                             $("#ArrearsAmt").val(arrAmount);
                             $("#PenaltiesAmt").val(penaltiesAmount);
@@ -2131,28 +2079,22 @@
 
                         $("#Premium").val(parseFloat(calulatePremium).toFixed(2));
                         $("#PremiumWithDiscount").val(parseFloat(CoverAmount).toFixed(2));
-
                         $("#InsuranceId").val(data.Data.Response.Quotes[0].InsuranceID);
-
                         $("#basicPremiumICEcash").val(parseFloat(CoverAmount).toFixed(2));
-
                         $("#stampDutyICEcash").val(parseFloat(StampDuty).toFixed(2))
                         $("#LevyICEcash").val(parseFloat(GovernmentLevy).toFixed(2))
-
-
-
                         $("#isVehicleRegisteredonICEcash").val(1);
+
+                       
+
                         QuoteCalculation();
                         $(".loading-area").hide();
                     }
                     else
                     {
-
-
                         QuoteCalculation();
                         $(".loading-area").hide();
                     }
-
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $(".loading-area").hide();
@@ -2563,5 +2505,27 @@
             $("#NumberofPersons").val("0");
         }
     })
+
+    function changetextbox() {
+        
+       
+       
+        //if (document.getElementById("CoverTypeId").value == "1")
+        //{
+        //    document.getElementById("CoverStartDate").disabled = 'true';
+        //    document.getElementById("CoverEndDate").disabled = 'true';
+        //}
+        //if (document.getElementById("CoverTypeId").value == "2")
+        //{
+        //    document.getElementById("CoverStartDate").disabled = 'true';
+        //    document.getElementById("CoverEndDate").disabled = 'true';
+        //}
+        //if (document.getElementById("CoverTypeId").value == "4")
+        //{
+        //    document.getElementById("CoverStartDate").disabled = false;
+        //    document.getElementById("CoverEndDate").disabled = false;
+
+        //}
+    }
 
 </script>

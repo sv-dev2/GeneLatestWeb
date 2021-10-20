@@ -85,7 +85,12 @@
                                     <th> Registration Number </th>
                                     <th> Vehicle </th>
                                     <th> Customer Name</th>
-                                    <th> Total Premium </th>
+                                    <th> Premium</th>
+                                    <th> Stamp Duty</th>
+                                    <th> ZTSC Levy</th>
+                                    <th> License Fee</th>
+                                    <th> Radio License</th>
+                                    <th>Grand Total</th>
                                     <th> Created On</th>
                                     <th> Cancelled Date  </th>
                                     <th>Branch</th>
@@ -96,12 +101,17 @@
                             <tbody>
 
                                 @foreach (var item in Model.listpolicy)
-            {
+              {
                                     <tr>
                                         <td>@item.PolicyNumber</td>
                                         <td>@item.RegisterationNumber</td>
                                         <td>@item.Make <span> </span> @item.Model </td>
                                         <td>@item.CustomerName </td>
+                                        <td>@item.Premium </td>
+                                        <td>@item.StampDuty </td>
+                                        <td>@item.ZtscLevy </td>
+                                        <td>@item.VehicleLicenseFee </td>
+                                        <td>@String.Format("{0:0.00}", @item.RadioLicesneCost)   </td>
                                         <td>@item.TotalPremium </td>
                                         <td>@item.createdOn.ToShortDateString() </td>
                                         <td> @item.ModifiedOn</td>

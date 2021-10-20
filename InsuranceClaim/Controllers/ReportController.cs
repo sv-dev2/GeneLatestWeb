@@ -805,14 +805,14 @@ namespace InsuranceClaim.Controllers
                         Payment_Term = x.Payment_Term,
                         CoverType = x.CoverType,
                         Currency = x.Currency,
-                        Premium_due = x.Premium_due==null? 0 : Convert.ToDecimal(x.Premium_due),
-                        Stamp_duty = x.Stamp_duty==null? 0 : Convert.ToDecimal(x.Stamp_duty),
-                        ZTSC_Levy = x.ZTSC_Levy==null? 0 : Convert.ToDecimal(x.ZTSC_Levy),
+                        Premium_due = x.Premium_due == null ? 0 : Convert.ToDecimal(x.Premium_due),
+                        Stamp_duty = x.Stamp_duty == null ? 0 : Convert.ToDecimal(x.Stamp_duty),
+                        ZTSC_Levy = x.ZTSC_Levy == null ? 0 : Convert.ToDecimal(x.ZTSC_Levy),
                         ALMId = x.ALMId,
-                        Comission_Amount = x.Comission_Amount==null? 0 : Convert.ToDecimal(x.Comission_Amount),
+                        Comission_Amount = x.Comission_Amount == null ? 0 : Convert.ToDecimal(x.Comission_Amount),
                         //IncludeRadioLicenseCost = x.IncludeRadioLicenseCost,
-                        RadioLicenseCost = x.RadioLicenseCost==null? 0 : Convert.ToDecimal(x.RadioLicenseCost),
-                        Zinara_License_Fee = x.Zinara_License_Fee==null? 0 : Convert.ToDecimal(x.Zinara_License_Fee),
+                        RadioLicenseCost = x.RadioLicenseCost == null ? 0 : Convert.ToDecimal(x.RadioLicenseCost),
+                        Zinara_License_Fee = x.Zinara_License_Fee == null ? 0 : Convert.ToDecimal(x.Zinara_License_Fee),
                         PolicyRenewalDate = x.PolicyRenewalDate,
                         IsActive = x.IsActive,
                         RenewPolicyNumber = x.RenewPolicyNumber,
@@ -889,14 +889,14 @@ namespace InsuranceClaim.Controllers
                         Payment_Term = x.Payment_Term,
                         CoverType = x.CoverType,
                         Currency = x.Currency,
-                        Premium_due = x.Premium_due ==null? 0 : Convert.ToDecimal(x.Premium_due),
-                        Stamp_duty = x.Stamp_duty==null ? 0 : Convert.ToDecimal(x.Stamp_duty),
-                        ZTSC_Levy = x.ZTSC_Levy==null? 0 : Convert.ToDecimal(x.ZTSC_Levy),
+                        Premium_due = x.Premium_due == null ? 0 : Convert.ToDecimal(x.Premium_due),
+                        Stamp_duty = x.Stamp_duty == null ? 0 : Convert.ToDecimal(x.Stamp_duty),
+                        ZTSC_Levy = x.ZTSC_Levy == null ? 0 : Convert.ToDecimal(x.ZTSC_Levy),
                         ALMId = x.ALMId,
-                        Comission_Amount = x.Comission_Amount==null ? 0 : Convert.ToDecimal(x.Comission_Amount),
+                        Comission_Amount = x.Comission_Amount == null ? 0 : Convert.ToDecimal(x.Comission_Amount),
                         //IncludeRadioLicenseCost = x.IncludeRadioLicenseCost,
-                        RadioLicenseCost = x.RadioLicenseCost==null? 0 : Convert.ToDecimal(x.RadioLicenseCost),
-                        Zinara_License_Fee = x.Zinara_License_Fee ==null? 0 : Convert.ToDecimal(x.Zinara_License_Fee),
+                        RadioLicenseCost = x.RadioLicenseCost == null ? 0 : Convert.ToDecimal(x.RadioLicenseCost),
+                        Zinara_License_Fee = x.Zinara_License_Fee == null ? 0 : Convert.ToDecimal(x.Zinara_License_Fee),
                         PolicyRenewalDate = x.PolicyRenewalDate,
                         IsActive = x.IsActive,
                         RenewPolicyNumber = x.RenewPolicyNumber,
@@ -1039,7 +1039,7 @@ namespace InsuranceClaim.Controllers
                          ALMId = x.ALMId,
                          Comission_Amount = x.Comission_Amount,
                          //IncludeRadioLicenseCost = x.IncludeRadioLicenseCost,
-                         RadioLicenseCost = x.RadioLicenseCost==null ? 0 : Convert.ToDecimal(x.RadioLicenseCost),
+                         RadioLicenseCost = x.RadioLicenseCost == null ? 0 : Convert.ToDecimal(x.RadioLicenseCost),
                          Zinara_License_Fee = x.Zinara_License_Fee,
                          PolicyRenewalDate = x.PolicyRenewalDate,
                          IsActive = x.IsActive,
@@ -1140,7 +1140,7 @@ namespace InsuranceClaim.Controllers
                     ALMId = x.ALMId,
                     Comission_Amount = x.Comission_Amount,
                     //IncludeRadioLicenseCost = x.IncludeRadioLicenseCost,
-                    RadioLicenseCost = x.RadioLicenseCost==null? 0 : Convert.ToDecimal(x.RadioLicenseCost),
+                    RadioLicenseCost = x.RadioLicenseCost == null ? 0 : Convert.ToDecimal(x.RadioLicenseCost),
                     Zinara_License_Fee = x.Zinara_License_Fee,
                     PolicyRenewalDate = x.PolicyRenewalDate,
                     IsActive = x.IsActive,
@@ -1205,7 +1205,7 @@ namespace InsuranceClaim.Controllers
             query += " left join Currency on VehicleDetail.CurrencyId = Currency.Id ";
             query += " left join BusinessSource on BusinessSource.Id = VehicleDetail.BusinessSourceDetailId ";
             query += " left   join SourceDetail on VehicleDetail.BusinessSourceDetailId = SourceDetail.Id join AspNetUsers on AspNetUsers.id=customer.UserID join AspNetUserRoles on AspNetUserRoles.UserId=AspNetUsers.Id ";
-           // query += " left join Branch on VehicleDetail.ALMBranchId=Branch.Id ";
+            // query += " left join Branch on VehicleDetail.ALMBranchId=Branch.Id ";
             query += " where (VehicleDetail.IsActive = 1 or VehicleDetail.IsActive = null) and SummaryDetail.isQuotation=0   order by  VehicleDetail.Id desc ";
 
 
@@ -1279,7 +1279,7 @@ namespace InsuranceClaim.Controllers
                 if (index != -1)
                 {
                     list[index].Premium_due += item.Premium_due;
-                    list[index].GrandPremium = item.Premium_due + item.Zinara_License_Fee.Value + item.RadioLicenseCost.Value  + item.ZTSC_Levy+ item.Stamp_duty;
+                    list[index].GrandPremium = item.Premium_due + item.Zinara_License_Fee.Value + item.RadioLicenseCost.Value + item.ZTSC_Levy + item.Stamp_duty;
                     list[index].Stamp_duty += item.Stamp_duty;
                     list[index].ZTSC_Levy += item.ZTSC_Levy;
                     list[index].Comission_Amount += item.Comission_Amount;
@@ -1291,7 +1291,7 @@ namespace InsuranceClaim.Controllers
                 else
                 {
                     model.Premium_due = item.Premium_due;
-                    model.GrandPremium = item.Premium_due + item.Zinara_License_Fee.Value + item.RadioLicenseCost.Value + item.ZTSC_Levy+ item.Stamp_duty;
+                    model.GrandPremium = item.Premium_due + item.Zinara_License_Fee.Value + item.RadioLicenseCost.Value + item.ZTSC_Levy + item.Stamp_duty;
                     model.Stamp_duty = item.Stamp_duty;
                     model.ZTSC_Levy = item.ZTSC_Levy;
                     model.Comission_Amount = item.Comission_Amount;
@@ -1309,7 +1309,7 @@ namespace InsuranceClaim.Controllers
             var endorsmentList = GetGWPEndorsmentReport(new GrossWrittenPremiumReportSearchModels());
             Model.ListGrossWrittenPremiumReportdata.AddRange(endorsmentList);
 
-          //  var res = Convert.ToDateTime("dd");
+            //  var res = Convert.ToDateTime("dd");
 
             return View(Model);
         }
@@ -1377,8 +1377,8 @@ namespace InsuranceClaim.Controllers
             ListGrossWrittenPremiumReport = InsuranceContext.Query(query).
                 Select(x => new GrossWrittenPremiumReportModels()
                 {
-                    PaymentMethodId = x.PaymentMethodId==null ? 0 : Convert.ToInt32(x.PaymentMethodId),
-                    CreatedBy = x.CreatedBy==null ? 0  : Convert.ToInt32(x.CreatedBy),
+                    PaymentMethodId = x.PaymentMethodId == null ? 0 : Convert.ToInt32(x.PaymentMethodId),
+                    CreatedBy = x.CreatedBy == null ? 0 : Convert.ToInt32(x.CreatedBy),
                     Policy_Number = x.Policy_Number,
                     BranchName = x.BranchName,
                     PolicyCreatedBy = x.PolicyCreatedBy,
@@ -2131,7 +2131,7 @@ namespace InsuranceClaim.Controllers
             query += " left join Currency on VehicleDetail.CurrencyId = Currency.Id ";
             query += " left join BusinessSource on BusinessSource.Id = VehicleDetail.BusinessSourceDetailId ";
             query += " left   join SourceDetail on VehicleDetail.BusinessSourceDetailId = SourceDetail.Id join AspNetUsers on AspNetUsers.id=customer.UserID join AspNetUserRoles on AspNetUserRoles.UserId=AspNetUsers.Id ";
-           // query += "  left join Branch on VehicleDetail.ALMBranchId=Branch.Id ";
+            // query += "  left join Branch on VehicleDetail.ALMBranchId=Branch.Id ";
             query += " where (VehicleDetail.IsActive = 1 or VehicleDetail.IsActive = null) and SummaryDetail.isQuotation=0  and (  CONVERT(date, VehicleDetail.TransactionDate) >= convert(date, '" + _model.FormDate + "', 101)  and CONVERT(date, VehicleDetail.TransactionDate) <= convert(date, '" + _model.EndDate + "', 101))  ";
 
             if (_model.ReportTypeId == (int)ReportTypeEnum.ALM)
@@ -2176,7 +2176,7 @@ namespace InsuranceClaim.Controllers
                     //IncludeRadioLicenseCost = x.IncludeRadioLicenseCost,
                     SourceDetailName = x.SourceDetailName,
                     SummaryDetailId = x.SummaryDetailId,
-                    Sum_Insured = x.SumInsured==null? 0 : Convert.ToDecimal(x.SumInsured),
+                    Sum_Insured = x.SumInsured == null ? 0 : Convert.ToDecimal(x.SumInsured),
                     AdministrationAmt = x.AdministrationAmt,
                     ReceiptNumber = RecieptNumber(x.policyId, x.RenewPolicyNumber, recieptList)
                 }).ToList();
@@ -2229,7 +2229,7 @@ namespace InsuranceClaim.Controllers
                     list[index].RadioLicenseCost += item.RadioLicenseCost;
                     list[index].Zinara_License_Fee += item.Zinara_License_Fee;
                     list[index].Sum_Insured += item.Sum_Insured;
-                    list[index].GrandPremium = item.Premium_due + item.Zinara_License_Fee.Value + item.RadioLicenseCost.Value  + item.Stamp_duty + item.ZTSC_Levy;
+                    list[index].GrandPremium = item.Premium_due + item.Zinara_License_Fee.Value + item.RadioLicenseCost.Value + item.Stamp_duty + item.ZTSC_Levy;
                 }
                 else
                 {
@@ -2241,7 +2241,7 @@ namespace InsuranceClaim.Controllers
                     model.RadioLicenseCost = item.RadioLicenseCost;
                     model.Zinara_License_Fee = item.Zinara_License_Fee;
                     model.Sum_Insured = item.Sum_Insured;
-                    model.GrandPremium = item.Premium_due + item.Zinara_License_Fee.Value + item.RadioLicenseCost.Value  + item.Stamp_duty + item.ZTSC_Levy; 
+                    model.GrandPremium = item.Premium_due + item.Zinara_License_Fee.Value + item.RadioLicenseCost.Value + item.Stamp_duty + item.ZTSC_Levy;
                     list.Add(model);
                 }
             }
@@ -5046,45 +5046,61 @@ namespace InsuranceClaim.Controllers
 
 
 
-        [Authorize(Roles = "Administrator,Reports,Finance")]
+        // [Authorize(Roles = "Administrator,Reports,Finance")]
         public ActionResult DisablePolicy()
         {
-
-            string query = "select PolicyDetail.PolicyNumber,  VehicleDetail.RegistrationNo, VehicleDetail.ReasonContent, VehicleMake.MakeDescription, VehicleModel.ModelDescription, ";
-            query += " Customer.FirstName + ' '+ Customer.LastName as CustomerName, VehicleDetail.Premium , VehicleDetail.StampDuty, VehicleDetail.ZTSCLevy ,VehicleDetail.VehicleLicenceFee, ";
-            query += " VehicleDetail.IncludeRadioLicenseCost, convert(varchar, VehicleDetail.ModifiedOn, 1) as ModifiedOn , VehicleDetail.RadioLicenseCost, VehicleDetail.TransactionDate, CASE WHEN Branch.BranchName IS NULL THEN 'Gene Call Centre' ELSE Branch.BranchName END as BranchName from VehicleDetail ";
-            query += " join PolicyDetail on PolicyDetail.Id=VehicleDetail.PolicyId ";
-            query += " join SummaryVehicleDetail on VehicleDetail.Id=SummaryVehicleDetail.Id ";
-            query += " join SummaryDetail on SummaryDetail.Id= SummaryVehicleDetail.SummaryDetailId ";
-            query += "  join Customer on VehicleDetail.CustomerId=Customer.Id ";
-            query += " left join VehicleMake on VehicleDetail.MakeId=VehicleMake.MakeCode ";
-            query += " left join VehicleModel on VehicleDetail.ModelId=VehicleModel.ModelDescription  ";
-            query += " left join Branch on VehicleDetail.ALMBranchId=Branch.Id  ";
-            query += " where VehicleDetail.IsActive=0 and isLapsed=0 order by VehicleDetail.id desc ";
-
             ListPolicy policylist = new ListPolicy();
-            policylist.listpolicy = new List<PolicyListViewModel>();
-            PolicyListViewModel policylistviewmodel = new PolicyListViewModel();
-            var paymentInformationList = InsuranceContext.PaymentInformations.All();
-
-
-            List<PolicyListViewModel> list = InsuranceContext.Query(query).Select(x => new PolicyListViewModel()
+            try
             {
-                PolicyNumber = x.PolicyNumber,
-                RegisterationNumber = x.RegistrationNo,
-                Make = x.MakeDescription,
-                Model = x.ModelDescription,
-                CustomerName = x.CustomerName,
-                TotalPremium = CalculatePremium(x.Premium, x.StampDuty, x.ZTSCLevy, x.VehicleLicenceFee, x.IncludeRadioLicenseCost, x.RadioLicenseCost),
-                createdOn = x.TransactionDate,
-               // AgentName = x.CreatedBy,
-                ModifiedOn = x.ModifiedOn == null ? "" : Convert.ToString(x.ModifiedOn),
-                CancelReason = x.ReasonContent,
-               // CreatedBy= Convert.ToString(x.CreatedBy),
-                BranchName = x.BranchName
-            }).ToList();
 
-            policylist.listpolicy = list;
+
+
+                string query = "select top 500 PolicyDetail.PolicyNumber,  VehicleDetail.RegistrationNo, VehicleDetail.ReasonContent, VehicleMake.MakeDescription, VehicleModel.ModelDescription, ";
+                query += " Customer.FirstName + ' '+ Customer.LastName as CustomerName, VehicleDetail.Premium , VehicleDetail.StampDuty, VehicleDetail.ZTSCLevy ,VehicleDetail.VehicleLicenceFee, ";
+                query += " VehicleDetail.IncludeRadioLicenseCost, convert(varchar, VehicleDetail.ModifiedOn, 1) as ModifiedOn , VehicleDetail.RadioLicenseCost, VehicleDetail.TransactionDate, CASE WHEN Branch.BranchName IS NULL THEN 'Gene Call Centre' ELSE Branch.BranchName END as BranchName from VehicleDetail ";
+                query += " join PolicyDetail on PolicyDetail.Id=VehicleDetail.PolicyId ";
+                query += " join SummaryVehicleDetail on VehicleDetail.Id=SummaryVehicleDetail.Id ";
+                query += " join SummaryDetail on SummaryDetail.Id= SummaryVehicleDetail.SummaryDetailId ";
+                query += "  join Customer on VehicleDetail.CustomerId=Customer.Id ";
+                query += " left join VehicleMake on VehicleDetail.MakeId=VehicleMake.MakeCode ";
+                query += " left join VehicleModel on VehicleDetail.ModelId=VehicleModel.ModelDescription  ";
+                query += " left join Branch on VehicleDetail.ALMBranchId=Branch.Id  ";
+                query += " where VehicleDetail.IsActive=0 and isLapsed=0 order by VehicleDetail.id desc ";
+
+
+                policylist.listpolicy = new List<PolicyListViewModel>();
+                PolicyListViewModel policylistviewmodel = new PolicyListViewModel();
+                var paymentInformationList = InsuranceContext.PaymentInformations.All();
+
+
+                List<PolicyListViewModel> list = InsuranceContext.Query(query).Select(x => new PolicyListViewModel()
+                {
+                    PolicyNumber = x.PolicyNumber,
+                    RegisterationNumber = x.RegistrationNo,
+                    Make = x.MakeDescription,
+                    Model = x.ModelDescription,
+                    CustomerName = x.CustomerName,
+                    Premium = x.Premium == null ? 0 : Convert.ToDecimal(x.Premium),
+                    StampDuty = x.StampDuty == null ? 0 : Convert.ToDecimal(x.StampDuty),
+                    VehicleLicenseFee = x.VehicleLicenceFee == null ? 0 : Convert.ToDecimal(x.VehicleLicenceFee),
+                    RadioLicesneCost = x.RadioLicenseCost == null ? 0 : Convert.ToDecimal(x.RadioLicenseCost),
+                    ZtscLevy = x.ZTSCLevy == null ? 0 : Convert.ToDecimal(x.ZTSCLevy),
+                    TotalPremium = CalculatePremium(x.Premium, x.StampDuty, x.ZTSCLevy, x.VehicleLicenceFee, x.IncludeRadioLicenseCost, x.RadioLicenseCost),
+                    createdOn = x.TransactionDate,
+                    // AgentName = x.CreatedBy,
+                    ModifiedOn = x.ModifiedOn == null ? "" : Convert.ToString(x.ModifiedOn),
+                    CancelReason = x.ReasonContent,
+                    // CreatedBy= Convert.ToString(x.CreatedBy),
+                    BranchName = x.BranchName
+                }).ToList();
+
+                policylist.listpolicy = list;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
 
             return View(policylist);
         }
@@ -5093,45 +5109,60 @@ namespace InsuranceClaim.Controllers
         public ActionResult SearchDisablePolicy(ListPolicy model)
         {
 
-            string query = "select PolicyDetail.PolicyNumber, VehicleDetail.RegistrationNo, VehicleDetail.ReasonContent, VehicleMake.MakeDescription, VehicleModel.ModelDescription, ";
-            query += " Customer.FirstName + ' '+ Customer.LastName as CustomerName, VehicleDetail.Premium , VehicleDetail.StampDuty, VehicleDetail.ZTSCLevy ,VehicleDetail.VehicleLicenceFee,  ";
-            query += " VehicleDetail.IncludeRadioLicenseCost, VehicleDetail.RadioLicenseCost,convert(varchar, VehicleDetail.ModifiedOn, 1) as ModifiedOn, VehicleDetail.TransactionDate,CASE WHEN Branch.BranchName IS NULL THEN 'Gene Call Centre' ELSE Branch.BranchName END as BranchName from VehicleDetail ";
-            query += " join PolicyDetail on PolicyDetail.Id=VehicleDetail.PolicyId ";
-            query += " join SummaryVehicleDetail on VehicleDetail.Id=SummaryVehicleDetail.Id ";
-            query += " join SummaryDetail on SummaryDetail.Id= SummaryVehicleDetail.SummaryDetailId ";
-            query += "  join Customer on VehicleDetail.CustomerId=Customer.Id ";
-            query += " left join VehicleMake on VehicleDetail.MakeId=VehicleMake.MakeCode ";
-            query += " left join VehicleModel on VehicleDetail.ModelId=VehicleModel.ModelDescription  ";
-            query += " left join Branch on VehicleDetail.ALMBranchId=Branch.Id   ";
-            query += " where VehicleDetail.IsActive=0 and isLapsed=0  ";
-            // query += "   and (CONVERT(date, VehicleDetail.ModifiedOn) >= convert(date, '" + model.FromDate + "', 101)  and CONVERT(date, VehicleDetail.ModifiedOn) <= convert(date, '" + model.EndDate + "', 101))  order by  VehicleDetail.Id desc";
-
-            query += "   and (CONVERT(date, VehicleDetail.TransactionDate) >= convert(date, '" + model.FromDate + "', 101)  and CONVERT(date, VehicleDetail.TransactionDate) <= convert(date, '" + model.EndDate + "', 101))  order by  VehicleDetail.Id desc";
-
-
             ListPolicy policylist = new ListPolicy();
-            policylist.listpolicy = new List<PolicyListViewModel>();
-            PolicyListViewModel policylistviewmodel = new PolicyListViewModel();
-            var paymentInformationList = InsuranceContext.PaymentInformations.All();
-
-
-            List<PolicyListViewModel> list = InsuranceContext.Query(query).Select(x => new PolicyListViewModel()
+            try
             {
-                PolicyNumber = x.PolicyNumber,
-                RegisterationNumber = x.RegistrationNo,
-                Make = x.MakeDescription,
-                Model = x.ModelDescription,
-                CustomerName = x.CustomerName,
-                TotalPremium = CalculatePremium(x.Premium, x.StampDuty, x.ZTSCLevy, x.VehicleLicenceFee, x.IncludeRadioLicenseCost, x.RadioLicenseCost),
-                createdOn = x.TransactionDate,
-                //AgentName = x.CreatedBy,
-                ModifiedOn = x.ModifiedOn,
-                CancelReason = x.ReasonContent,
-                
-                BranchName = x.BranchName
-            }).ToList();
 
-            policylist.listpolicy = list;
+
+                string query = "select PolicyDetail.PolicyNumber, VehicleDetail.RegistrationNo, VehicleDetail.ReasonContent, VehicleMake.MakeDescription, VehicleModel.ModelDescription, ";
+                query += " Customer.FirstName + ' '+ Customer.LastName as CustomerName, VehicleDetail.Premium , VehicleDetail.StampDuty, VehicleDetail.ZTSCLevy ,VehicleDetail.VehicleLicenceFee,  ";
+                query += " VehicleDetail.IncludeRadioLicenseCost, VehicleDetail.RadioLicenseCost,convert(varchar, VehicleDetail.ModifiedOn, 1) as ModifiedOn, VehicleDetail.TransactionDate,CASE WHEN Branch.BranchName IS NULL THEN 'Gene Call Centre' ELSE Branch.BranchName END as BranchName from VehicleDetail ";
+                query += " join PolicyDetail on PolicyDetail.Id=VehicleDetail.PolicyId ";
+                query += " join SummaryVehicleDetail on VehicleDetail.Id=SummaryVehicleDetail.Id ";
+                query += " join SummaryDetail on SummaryDetail.Id= SummaryVehicleDetail.SummaryDetailId ";
+                query += "  join Customer on VehicleDetail.CustomerId=Customer.Id ";
+                query += " left join VehicleMake on VehicleDetail.MakeId=VehicleMake.MakeCode ";
+                query += " left join VehicleModel on VehicleDetail.ModelId=VehicleModel.ModelDescription  ";
+                query += " left join Branch on VehicleDetail.ALMBranchId=Branch.Id   ";
+                query += " where VehicleDetail.IsActive=0 and isLapsed=0  ";
+                // query += "   and (CONVERT(date, VehicleDetail.ModifiedOn) >= convert(date, '" + model.FromDate + "', 101)  and CONVERT(date, VehicleDetail.ModifiedOn) <= convert(date, '" + model.EndDate + "', 101))  order by  VehicleDetail.Id desc";
+
+                query += "   and (CONVERT(date, VehicleDetail.TransactionDate) >= convert(date, '" + model.FromDate + "', 101)  and CONVERT(date, VehicleDetail.TransactionDate) <= convert(date, '" + model.EndDate + "', 101))  order by  VehicleDetail.Id desc";
+
+
+
+                policylist.listpolicy = new List<PolicyListViewModel>();
+                PolicyListViewModel policylistviewmodel = new PolicyListViewModel();
+                var paymentInformationList = InsuranceContext.PaymentInformations.All();
+
+
+                List<PolicyListViewModel> list = InsuranceContext.Query(query).Select(x => new PolicyListViewModel()
+                {
+                    PolicyNumber = x.PolicyNumber,
+                    RegisterationNumber = x.RegistrationNo,
+                    Make = x.MakeDescription,
+                    Model = x.ModelDescription,
+                    CustomerName = x.CustomerName,
+                    Premium = x.Premium == null ? 0 : Convert.ToDecimal(x.Premium),
+                    StampDuty = x.StampDuty == null ? 0 : Convert.ToDecimal(x.StampDuty),
+                    VehicleLicenseFee = x.VehicleLicenceFee == null ? 0 : Convert.ToDecimal(x.VehicleLicenceFee),
+                    RadioLicesneCost = x.RadioLicenseCost == null ? 0 : Convert.ToDecimal(x.RadioLicenseCost),
+                    ZtscLevy = x.ZTSCLevy == null ? 0 : Convert.ToDecimal(x.ZTSCLevy),
+                    TotalPremium = CalculatePremium(x.Premium, x.StampDuty, x.ZTSCLevy, x.VehicleLicenceFee, x.IncludeRadioLicenseCost, x.RadioLicenseCost),
+                    createdOn = x.TransactionDate,
+                    //AgentName = x.CreatedBy,
+                    ModifiedOn = x.ModifiedOn,
+                    CancelReason = x.ReasonContent,
+
+                    BranchName = x.BranchName
+                }).ToList();
+
+                policylist.listpolicy = list;
+            }
+            catch (Exception ex)
+            {
+
+            }
 
             return View("DisablePolicy", policylist);
         }
@@ -5245,15 +5276,15 @@ namespace InsuranceClaim.Controllers
             return View(Model);
         }
 
-        public ActionResult  UnRecieptReport()
+        public ActionResult UnRecieptReport()
         {
             UnRecieptDetail UnReciptModel = new UnRecieptDetail();
 
             string startDate = DateTime.Now.AddMonths(-2).ToShortDateString();
             string endDate = DateTime.Now.ToShortDateString();
 
-            var query = " select top 500 [dbo].[fn_GetUserCallCenterAgent] (SummaryDetail.CreatedBy) as AgentName, SummaryDetail.Id as SummaryDetailId, PolicyDetail.id as PolicyId,  PolicyDetail.PolicyNumber, VehicleDetail.RegistrationNo,VehicleDetail.TransactionDate, Customer.FirstName + ' ' + Customer.LastName as CustomerName, SummaryDetail.TotalPremium  from PolicyDetail join VehicleDetail on PolicyDetail.Id = VehicleDetail.PolicyId ";
-            query += " join SummaryVehicleDetail on VehicleDetail.Id = SummaryVehicleDetail.Id ";
+            var query = " select top 500 [dbo].[fn_GetUserCallCenterAgent] (SummaryDetail.CreatedBy) as AgentName, SummaryDetail.Id as SummaryDetailId, PolicyDetail.id as PolicyId,  PolicyDetail.PolicyNumber, VehicleDetail.RegistrationNo,VehicleDetail.TransactionDate, VehicleDetail.RenewPolicyNumber, Customer.FirstName + ' ' + Customer.LastName as CustomerName, SummaryDetail.TotalPremium  from PolicyDetail join VehicleDetail on PolicyDetail.Id = VehicleDetail.PolicyId ";
+            query += " join SummaryVehicleDetail on VehicleDetail.Id = SummaryVehicleDetail.VehicleDetailsId ";
             query += " join SummaryDetail on SummaryDetail.Id = SummaryVehicleDetail.SummaryDetailId join Customer on VehicleDetail.CustomerId=Customer.Id ";
             query += " where(VehicleDetail.IsActive = 1 or VehicleDetail.IsActive = null) and SummaryDetail.isQuotation = 0  order by VehicleDetail.TransactionDate  desc";
 
@@ -5280,6 +5311,7 @@ namespace InsuranceClaim.Controllers
                         model.Premium_due = reader["TotalPremium"] == null ? 0 : Convert.ToDecimal(reader["TotalPremium"]);
                         model.PolicyId = reader["PolicyId"] == null ? 0 : Convert.ToInt32(reader["PolicyId"]);
                         model.SummaryDetailId = reader["SummaryDetailId"] == null ? 0 : Convert.ToInt32(reader["SummaryDetailId"]);
+                        model.RenewPolicyNumber = reader["RenewPolicyNumber"] == null ? "" : Convert.ToString(reader["RenewPolicyNumber"]);
 
                         result.Add(model);
 
@@ -5320,28 +5352,28 @@ namespace InsuranceClaim.Controllers
             {
                 DateTime policyCreatedDate = Convert.ToDateTime(item.Transaction_date);
                 TimeSpan t = dtCurrent.Subtract(policyCreatedDate);
-               
-                    var receiptDetail = recieptList.FirstOrDefault(c => c.PolicyId == item.PolicyId);
-                    if (receiptDetail == null)
+
+                var receiptDetail = recieptList.FirstOrDefault(c => c.PolicyId == item.PolicyId);
+                if (receiptDetail == null)
+                {
+                    item.Days = t.TotalDays;
+                    RecieptDetail detail = new RecieptDetail
                     {
-                        item.Days = t.TotalDays;
-                        RecieptDetail detail = new RecieptDetail
-                        {
-                            AgentName = item.AgentName,
-                            Policy_Number = item.Policy_Number,
-                            Customer_Name = item.Customer_Name,
-                            Premium_due = item.Premium_due,
-                            Days = item.Days,
-                            VRN = item.VRN,
-                            Transaction_date = item.Transaction_date
-                        };
-                        list.Add(detail);
-                    }           
+                        AgentName = item.AgentName,
+                        Policy_Number = item.Policy_Number,
+                        Customer_Name = item.Customer_Name,
+                        Premium_due = item.Premium_due,
+                        Days = item.Days,
+                        VRN = item.VRN,
+                        Transaction_date = item.Transaction_date
+                    };
+                    list.Add(detail);
+                }
             }
 
             UnReciptModel.RecieptDetails = list;
 
-           
+
             return View(UnReciptModel);
         }
 
@@ -5354,8 +5386,8 @@ namespace InsuranceClaim.Controllers
 
             UnRecieptDetail UnReciptModel = new UnRecieptDetail();
 
-            var query = " select [dbo].[fn_GetUserCallCenterAgent] (SummaryDetail.CreatedBy) as AgentName, SummaryDetail.Id as SummaryDetailId, PolicyDetail.id as PolicyId,  PolicyDetail.PolicyNumber, VehicleDetail.RegistrationNo,VehicleDetail.TransactionDate, Customer.FirstName + ' ' + Customer.LastName as CustomerName, SummaryDetail.TotalPremium  from PolicyDetail join VehicleDetail on PolicyDetail.Id = VehicleDetail.PolicyId ";
-            query += " join SummaryVehicleDetail on VehicleDetail.Id = SummaryVehicleDetail.Id ";
+            var query = " select [dbo].[fn_GetUserCallCenterAgent] (SummaryDetail.CreatedBy) as AgentName, SummaryDetail.Id as SummaryDetailId, PolicyDetail.id as PolicyId,  PolicyDetail.PolicyNumber, VehicleDetail.RegistrationNo,VehicleDetail.TransactionDate, VehicleDetail.RenewPolicyNumber, Customer.FirstName + ' ' + Customer.LastName as CustomerName, SummaryDetail.TotalPremium  from PolicyDetail join VehicleDetail on PolicyDetail.Id = VehicleDetail.PolicyId ";
+            query += " join SummaryVehicleDetail on VehicleDetail.Id = SummaryVehicleDetail.VehicleDetailsId ";
             query += " join SummaryDetail on SummaryDetail.Id = SummaryVehicleDetail.SummaryDetailId join Customer on VehicleDetail.CustomerId=Customer.Id ";
             query += " where(VehicleDetail.IsActive = 1 or VehicleDetail.IsActive = null) and SummaryDetail.isQuotation = 0 and(CONVERT(date, VehicleDetail.TransactionDate) >= convert(date, '" + startDate + "', 101)  and CONVERT(date, VehicleDetail.TransactionDate) <= convert(date, '" + endDate + "', 101))  order by VehicleDetail.TransactionDate  desc";
 
@@ -5382,6 +5414,7 @@ namespace InsuranceClaim.Controllers
                         model.Premium_due = reader["TotalPremium"] == null ? 0 : Convert.ToDecimal(reader["TotalPremium"]);
                         model.PolicyId = reader["PolicyId"] == null ? 0 : Convert.ToInt32(reader["PolicyId"]);
                         model.SummaryDetailId = reader["SummaryDetailId"] == null ? 0 : Convert.ToInt32(reader["SummaryDetailId"]);
+                        model.RenewPolicyNumber = reader["RenewPolicyNumber"] == null ? "" : Convert.ToString(reader["RenewPolicyNumber"]);
 
                         result.Add(model);
 
@@ -6360,7 +6393,7 @@ namespace InsuranceClaim.Controllers
                     //IncludeRadioLicenseCost = x.IncludeRadioLicenseCost,
                     SourceDetailName = x.SourceDetailName,
                     SummaryDetailId = x.SummaryDetailId,
-                    Sum_Insured = x.SumInsured==null ? 0 : Convert.ToDecimal(x.SumInsured),
+                    Sum_Insured = x.SumInsured == null ? 0 : Convert.ToDecimal(x.SumInsured),
                     AdministrationAmt = x.AdministrationAmt,
                     ReceiptNumber = RecieptNumber(x.policyId, x.RenewPolicyNumber, recieptList)
                 }).ToList();

@@ -15,6 +15,9 @@ namespace InsuranceClaim.Controllers
         public ActionResult Index()
         {
 
+            
+
+
             //ICEcashService obj = new ICEcashService();
             //obj.getToken();
             //obj.RequestQuote(objVehicles);

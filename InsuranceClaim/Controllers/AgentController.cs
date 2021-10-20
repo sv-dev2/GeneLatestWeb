@@ -20,6 +20,7 @@ namespace InsuranceClaim.Controllers
     public class AgentController : Controller
     {
 
+        //test
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         string AdminEmail = WebConfigurationManager.AppSettings["AdminEmail"];

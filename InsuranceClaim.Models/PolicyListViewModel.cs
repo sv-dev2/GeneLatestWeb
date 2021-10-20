@@ -89,6 +89,15 @@ namespace InsuranceClaim.Models
 
         public string BranchName { get; set; }
 
+        public decimal Premium { get; set; }
+
+        public decimal StampDuty { get; set; }
+
+        public decimal ZtscLevy { get; set; }
+
+        public decimal VehicleLicenseFee { get; set; }
+        public decimal RadioLicesneCost { get; set; }
+
     }
 
     public class ListPolicy
