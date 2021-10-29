@@ -17,11 +17,11 @@ namespace InsuranceClaim.Controllers
         {
             //return View(InsuranceContext.Branches.All());
             var list = InsuranceContext.Query("select Branch.Id,  BranchName,AlmId ,Partners.PartnerName,Location_Id,Branch.Status   from Branch left  join Partners on  Partners.Id=Branch.PartnerId")
-          .Select(x => new Branch()
+          .Select(x => new BranchModel()
           {
               BranchName = x.BranchName,
               AlmId = x.AlmId,
-             // Partners = x.PartnerName,
+              Partners = x.PartnerName,
               Location_Id = x.Location_Id,
               Status = x.Status,
               Id = x.Id == null ? 0 : Convert.ToInt32(x.Id)
@@ -172,12 +172,16 @@ namespace InsuranceClaim.Controllers
                 if (branchDetails != null)
                 {
                     branchDetails.Status = true;
-                  //  branchDetails.PartnerId = branchModel.PartnersId;
+                    branchDetails.PartnerId = branchModel.PartnersId;
                     branchModel.BranchName = branchModel.BranchName;
                     branchModel.Location_Id = branchModel.Location_Id;
                     branchModel.AlmId = branchModel.AlmId;
 
-                    InsuranceContext.Branches.Update(branchDetails);
+                    string query = "update Branch set BranchName='"+branchModel.BranchName+"', AlmId='"+ branchModel.AlmId+"', PartnerId="+ branchModel.PartnersId+", Location_Id='"+ branchModel.Location_Id + "',  [Status]='"+branchModel.Status+"' where id=" + branchModel.Id;
+
+                     InsuranceContext.Execute(query);
+
+                   // InsuranceContext.Branches.Update(branchDetails);
                     return RedirectToAction("Index");
                 }
              

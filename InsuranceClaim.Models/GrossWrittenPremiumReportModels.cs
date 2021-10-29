@@ -12,7 +12,10 @@ namespace InsuranceClaim.Models
         public int? Id { get; set; }
         public string Customer_Name { get; set; }
         public string Policy_Number { get; set; }
-       
+
+        public string RegistrationNo { get; set; }
+
+
         public string Policy_endate { get; set; }
         public string Policy_startdate { get; set; }
         public string Transaction_date { get; set; }
@@ -82,7 +85,14 @@ namespace InsuranceClaim.Models
 
        public string ReceiptNumber { get; set; }
 
-     
+        public string CoverStartDate { get; set; }
+
+        public string CoverEndDate { get; set; }
+
+        public string ModelDescription { get; set; }
+
+        public string MakeDescription { get; set; }
+
 
     }
 
@@ -150,6 +160,7 @@ namespace InsuranceClaim.Models
         public int NumOfUser { get; set; }
 
         public int? CurrencyId { get; set; }
+        public int? CoverTypeId { get; set; }
 
     }
 

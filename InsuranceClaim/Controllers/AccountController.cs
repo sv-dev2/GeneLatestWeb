@@ -1431,9 +1431,9 @@ namespace InsuranceClaim.Controllers
                     var randomPwd = rnd.RandomPassword();
 
 
-                    string pwd = "cH4ngEm3n0W";
-                    if (model.role == "Customer" || model.role == "Web Customer")
-                        pwd = "Geninsure@123";
+                    //  string pwd = "cH4ngEm3n0W"; //leave for now
+                    // if (model.role == "Customer" || model.role == "Web Customer")
+                    string pwd   = "Geninsure@123";
                     
 
                         var result = await UserManager.CreateAsync(user, pwd);
@@ -1481,6 +1481,11 @@ namespace InsuranceClaim.Controllers
                         cstmr.WorkTypeId = model.WorkTypeId;
                         InsuranceContext.Customers.Insert(cstmr);
 
+                    }
+                    else
+                    {
+                        
+                        //return RedirectToAction("UserManagement", "Account", new {errMsg= result.Errors[0]  });
                     }
                 }
                 catch (Exception ex)
@@ -2184,7 +2189,7 @@ namespace InsuranceClaim.Controllers
 
             //(int)ALMBranch.GeneCallCentre
 
-            var query = "   select  PolicyDetail.PolicyNumber as Policy_Number, VehicleDetail.ALMBranchId,  Customer.PhoneNumber, ";
+            var query = "   select top 500  PolicyDetail.PolicyNumber as Policy_Number, VehicleDetail.ALMBranchId,  Customer.PhoneNumber, ";
             query += " case when VehicleDetail.ALMBranchId = 0  then[dbo].fn_GetUserCallCenterAgent(SummaryDetail.CreatedBy) else [dbo].fn_GetUserALM(VehicleDetail.ALMBranchId) end  as PolicyCreatedBy, Customer.FirstName + ' ' + Customer.LastName as CustomerName, ";
             query += " VehicleDetail.CoverStartDate, VehicleDetail.CoverEndDate, VehicleDetail.LicExpiryDate, VehicleDetail.RegistrationNo, ";
             query += " VehicleMake.MakeDescription , VehicleModel.ModelDescription, SummaryDetail.TotalPremium, ";
@@ -2212,8 +2217,8 @@ namespace InsuranceClaim.Controllers
                 AgentName = c.PolicyCreatedBy,
                 CustomerName = c.CustomerName,
                 CustomerContactNumber = c.PhoneNumber,
-                TotalPremium = Convert.ToDecimal(c.TotalPremium),
-                TotalSumInsured = Convert.ToDecimal(c.SumInsured),
+                TotalPremium = c.TotalPremium==null? 0 : Convert.ToDecimal(c.TotalPremium),
+                TotalSumInsured = c.SumInsured==null? 0 : Convert.ToDecimal(c.SumInsured),
                 // SummaryId = c.Id,
                 // createdOn = Convert.ToDateTime(c.CreatedOn),
                 PolicyNumber = c.Policy_Number,
@@ -2225,7 +2230,7 @@ namespace InsuranceClaim.Controllers
                 startdate = Convert.ToDateTime(c.CoverStartDate).ToShortDateString(),
                 enddate = Convert.ToDateTime(c.CoverEndDate).ToShortDateString(),
                 LicExpDate = c.LicExpiryDate,
-                RenewalDate = Convert.ToDateTime(c.RenewalDate).ToShortDateString(),
+                RenewalDate = GetRenewalDate(c.RenewalDate == null ? "" : Convert.ToDateTime(c.RenewalDate).ToShortDateString(), c.LicExpiryDate),
                 TransactionDate = c.Transaction_date,
                 Currency = c.Currency
             }).ToList();
@@ -2441,10 +2446,10 @@ namespace InsuranceClaim.Controllers
             query += " left join VehicleMake on VehicleDetail.MakeId= VehicleMake.MakeCode ";
             query += " left join VehicleModel on VehicleDetail.ModelId= VehicleModel.ModelCode ";
             query += " where (VehicleDetail.IsActive = 1 or VehicleDetail.IsActive = null) ";
-            query += " and SummaryDetail.isQuotation=0 and SummaryDetail.PaymentMethodId<>" + (int)paymentMethod.PayLater + "and  ";
-            query += "  (  CONVERT(date, VehicleDetail.RenewalDate) >= convert(date, '" + Model.FromDate + "', 101)  and CONVERT(date, VehicleDetail.RenewalDate) <= convert(date, '" + Model.EndDate + "', 101)) ";
+            query += " and SummaryDetail.isQuotation=0 and SummaryDetail.PaymentMethodId<>" + (int)paymentMethod.PayLater  ;
+            //  query += " and (  CONVERT(date, VehicleDetail.RenewalDate) >= convert(date, '" + Model.FromDate + "', 101)  and CONVERT(date, VehicleDetail.RenewalDate) <= convert(date, '" + Model.EndDate + "', 101)) ";
 
-                if (Model.LicenseId == (int)LicenseType.Insurance)
+            if (Model.LicenseId == (int)LicenseType.Insurance)
                 query += " and LicExpiryDate is null";
             else if (Model.LicenseId == (int)LicenseType.License)
                 query += " and LicExpiryDate is not null";
@@ -2463,8 +2468,8 @@ namespace InsuranceClaim.Controllers
                 AgentName = c.PolicyCreatedBy,
                 CustomerName = c.CustomerName,
                 CustomerContactNumber = c.PhoneNumber,
-                TotalPremium = Convert.ToDecimal(c.TotalPremium),
-                TotalSumInsured = Convert.ToDecimal(c.SumInsured),
+                TotalPremium = c.TotalPremium == null ? 0 : Convert.ToDecimal(c.TotalPremium),
+                TotalSumInsured = c.SumInsured == null ? 0 : Convert.ToDecimal(c.SumInsured),
                 LicExpDate = c.LicExpiryDate,
                 // SummaryId = c.Id,
                 // createdOn = Convert.ToDateTime(c.CreatedOn),
@@ -2476,7 +2481,7 @@ namespace InsuranceClaim.Controllers
                 RegisterationNumber = c.RegistrationNo,
                 startdate = Convert.ToDateTime(c.CoverStartDate).ToShortDateString(),
                 enddate = Convert.ToDateTime(c.CoverEndDate).ToShortDateString(),
-                RenewalDate = Convert.ToDateTime(c.RenewalDate).ToShortDateString(),
+                RenewalDate = GetRenewalDate(c.RenewalDate == null ? "" : Convert.ToDateTime(c.RenewalDate).ToShortDateString(), c.LicExpiryDate) ,  // Convert.ToDateTime(c.RenewalDate).ToShortDateString(),
                 TransactionDate = c.Transaction_date,
                 Currency = c.Currency
             }).ToList();
@@ -2494,9 +2499,7 @@ namespace InsuranceClaim.Controllers
                     item.PolicyNumber = item.RenewPolicyNumber;
                 }
 
-
-
-                if (Convert.ToDateTime(item.RenewalDate) <= Convert.ToDateTime(Model.EndDate))
+               if (Convert.ToDateTime(item.RenewalDate) <= Convert.ToDateTime(Model.EndDate))
                 {
                     item.PolicyStatus = "Lapsed";
                     newList.Add(item);

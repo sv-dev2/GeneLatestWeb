@@ -1140,11 +1140,11 @@
     <Content Include="Views\VehicleUsage\VehicleUsageList.cshtml" />
     <Content Include="Views\Report\ClaimsRegistrationReport.cshtml" />
     <Content Include="Views\Report\ClaimsPaymentReport.cshtml" />
-    <Content Include="Views\Branch\Create.cshtml" />
-    <Content Include="Views\Branch\Delete.cshtml" />
-    <Content Include="Views\Branch\Details.cshtml" />
-    <Content Include="Views\Branch\Edit.cshtml" />
-    <Content Include="Views\Branch\Index.cshtml" />
+    <Content Include="Views\ClaimAdjustment\Branch\Create.cshtml" />
+    <Content Include="Views\ClaimAdjustment\Branch\Delete.cshtml" />
+    <Content Include="Views\ClaimAdjustment\Branch\Details.cshtml" />
+    <Content Include="Views\ClaimAdjustment\Branch\Edit.cshtml" />
+    <Content Include="Views\ClaimAdjustment\Branch\Index.cshtml" />
     <Content Include="Views\Report\InsuranceAndLicenceDeliveryReport.cshtml" />
     <Content Include="Views\Shared\ClaimRegister.cshtml" />
     <Content Include="Views\Agent\Index.cshtml" />
@@ -1220,6 +1220,11 @@
     <Content Include="Views\Report\AccountsGrossWrittenPremuimReport.cshtml" />
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Branch\Create.cshtml" />
+    <Content Include="Views\Branch\Delete.cshtml" />
+    <Content Include="Views\Branch\Details.cshtml" />
+    <Content Include="Views\Branch\Edit.cshtml" />
+    <Content Include="Views\Branch\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AgentLogo\" />

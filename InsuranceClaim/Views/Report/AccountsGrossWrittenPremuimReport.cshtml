@@ -7,21 +7,21 @@
 <div class="productsave-section GrossWrittenPremiumReport">
 
     <div class="container-fluid" id="content">
-       
-         <div class="row">
+
+        <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 products-top">
                 <div class="head-title">
                     <h2>Gross Written Premium Report</h2>
                 </div>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="margin-top:28px;">
-                <div class="text-right">         
+                <div class="text-right">
                     <input class="btn btn-primary" type="button" value="Generate Excel" id="generateExcel" />
                 </div>
             </div>
         </div>
 
-        
+
         @using (Html.BeginForm("SearhAccountsGrossWrittenPremuimReport", "Report", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
 
@@ -72,12 +72,23 @@
                                 </div>
                             </div>
 
+                            <div class="col-sm-2 col-md-2 form-group-select">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        @Html.DropDownListFor(x => x.CoverTypeId, new SelectList(ViewBag.CoverType, "id", "Name"), "Select Cover", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="col-sm-3 col-md-3 form-group-btn">
+
+
+
+                            <div class="col-sm-2 col-md-2 form-group-btn">
                                 <div class="form-group">
                                     <ul class="list-inline">
                                         <li><button type="submit" class="btn btn-success">Search</button></li>
-                                        <li><button type="button" onclick="removeSearchBox();" class="btn btn-danger">Clear Search</button></li>
+                                        <li><button type="button" onclick="removeSearchBox();" class="btn btn-danger">Clear</button></li>
+
                                     </ul>
 
                                 </div>
@@ -89,10 +100,9 @@
             </div>
         }
 
-
         <div class="product-table-grid">
             <div class="table-responsive">
-                <table  class="table table-striped tablesorter"  id="report2excel">
+                <table class="table table-striped tablesorter" id="report2excel">
 
                     <thead style='display:none;'>
                         <tr>
@@ -134,26 +144,31 @@
 
                     <thead>
                         <tr>
-                            
-                            
+
+
                             <th style="width: 170px;">Customer Name</th>
                             <th style="width: 180px;">Policy Number</th>
+                            <th>Registration No</th>
+                            <th>Make</th>
+                            <th>Model</th>
                             <th>Cover Note</th>
-                            <th style="width:170px;">Policy Dates</th>
-                            
+                            <th>Policy Dates</th>
+
                             <th>Term Period</th>
                             <th>Cover Type</th>
                             <th>Currency</th>
+                            <th>Cover StartDate</th>
+                            <th>Cover EndDate</th>
                             <th>SumInsured</th>
-                            <th>Premium</th>                           
+                            <th>Premium</th>
                             <th>Stamp Duty</th>
                             <th>ZTSC Levy</th>
-                          
+
                             <th>Radio Licence Cost</th>
                             <th>Zinara License Fee</th>
-                           
-                            <th>Grand Premium</th>                        
-                           
+
+                            <th>Grand Premium</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -181,7 +196,7 @@
                             decimal ustotal = 0;
 
                             decimal GrandPremiumtotal = 0;
-                            
+
                             int rtgscount = 0;
                             int uscount = 0;
                             //Renewal
@@ -274,46 +289,44 @@
                             radioLicenseCostTotal += Convert.ToDecimal(item.RadioLicenseCost);
                             ZinaraLicenseFee += Convert.ToDecimal(item.Zinara_License_Fee);
                             <tr>
-                               
-                                
-                               
+
+
+
                                 <td>@item.Customer_Name</td>
                                 <td>
 
-                                 @if (item.RenewPolicyNumber == null)
-                                 {
-                                    @item.Policy_Number
-                                 }
-                                 else
-                                 {
-                                    @item.RenewPolicyNumber
-                                 }
+                                    @if (item.RenewPolicyNumber == null)
+                                    {
+                                        @item.Policy_Number
+                                    }
+                                    else
+                                    {
+                                        @item.RenewPolicyNumber
+                                    }
 
                                 </td>
+                                <td>@item.RegistrationNo</td>
+                                <td> @item.MakeDescription</td>
+                                <td> @item.ModelDescription</td>
                                 <td>@item.CoverNoteNum</td>
                                 <td>
                                     @item.Transaction_date
                                 </td>
-                               
+
                                 <td> @item.Payment_Term</td>
 
                                 <td>@item.CoverType</td>
                                 <td> @item.Currency </td>
+                                <td>@item.CoverStartDate</td>
+                                <td>@item.CoverEndDate</td>
                                 <td>@item.Sum_Insured</td>
-                                <td>  @item.Premium_due </td>                            
+                                <td>  @item.Premium_due </td>
                                 <td> @item.Stamp_duty</td>
                                 <td> @item.ZTSC_Levy</td>
-                               
+
                                 <td>@item.RadioLicenseCost</td>
                                 <td> @item.Zinara_License_Fee </td>
-                                
                                 <td> @item.GrandPremium </td>
-                                
-
-                               
-
-                            
-                                
 
                                 @*@item.SourceDetailName*@
                             </tr>
@@ -328,8 +341,12 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                           
-                            
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
                             <td>
                                 <b> @premiumDueTotal </b>
                             </td>
@@ -340,10 +357,10 @@
                             </td>
                             <td><strong>@radioLicenseCostTotal</strong></td>
                             <td><strong> @ZinaraLicenseFee </strong> </td>
-                          
+
                             <td><strong> @GrandPremiumtotal</strong> </td>
-                           
-                            
+
+
                         </tr>
                         @*<tr>
                                 <td><strong>Currency Total:</strong></td>
@@ -365,96 +382,96 @@
                             </tr>*@
 
                         <tr>
-                          
-                            <td colspan="7"></td>                       
-                            <td colspan="3"><strong>Currency</strong></td>
+
+                            <td colspan="10"></td>
+                            <td colspan="5"><strong>Currency</strong></td>
                             <td colspan="3"><strong>Amount</strong></td>
-                            <td colspan="3"><strong>Count</strong></td>   
-                              
-                                      
+                            <td colspan="3"><strong>Count</strong></td>
+
+
                         </tr>
 
                         <tr>
-                            <td colspan="7"><strong>New Business:</strong></td>
-                           
-                           
-                            <td colspan="3">USD</td>
+                            <td colspan="10"><strong>New Business:</strong></td>
+
+
+                            <td colspan="5">USD</td>
                             <td colspan="3">@ustotal</td>
                             <td colspan="3">@uscount</td>
-                         
-                            
+
+
                         </tr>
                         <tr>
-                         
-                            <td colspan="7"></td>
-                           
-                            <td colspan="3">RTGS$</td>
+
+                            <td colspan="10"></td>
+
+                            <td colspan="5">RTGS$</td>
                             <td colspan="3">@rtgstotal</td>
                             <td colspan="3">@rtgscount</td>
-                          
-                          
+
+
                         </tr>
 
                         <tr>
-                            <td colspan="15"></td>
-                            
+                            <td colspan="19"></td>
+
                         </tr>
                         <tr>
-                            <td colspan="7"><strong>Renewals</strong></td>
-                          
-                            <td colspan="3">USD</td>
+                            <td colspan="10"><strong>Renewals</strong></td>
+
+                            <td colspan="5">USD</td>
                             <td colspan="3">@Reustotal</td>
                             <td colspan="3">@Reuscount</td>
-                            
-                            
+
+
                         </tr>
                         <tr>
-                         
-                            <td colspan="7"></td>
-                           
-                            <td colspan="3">RTGS$</td>
-                           
-                            <td colspan="3" >@Rertgstotal</td>
+
+                            <td colspan="10"></td>
+
+                            <td colspan="5">RTGS$</td>
+
+                            <td colspan="3">@Rertgstotal</td>
                             <td colspan="3">@Rertgscount</td>
-                           
-                       
+
+
                         </tr>
 
                         <tr>
-                            <td colspan="15"></td>
-                           
+                            <td colspan="19"></td>
+
                         </tr>
 
 
                         <tr>
-                            <td colspan="7"><strong>Grand Total</strong></td>
-                          
-                           
-                            <td colspan="3"> USD</td>
+                            <td colspan="10"><strong>Grand Total</strong></td>
+
+
+                            <td colspan="5"> USD</td>
                             <td colspan="3">@(ustotal + Reustotal)</td>
                             <td colspan="3"> @(uscount + Reuscount) </td>
-                           
-                           
+
+
                         </tr>
                         <tr>
-                         
-                            <td colspan="7"></td>
-                           
-                            <td colspan="3">RTGS$</td>
+
+                            <td colspan="10"></td>
+
+                            <td colspan="5">RTGS$</td>
                             <td colspan="3">@(rtgstotal + Rertgstotal)</td>
-                            <td colspan="3">@(  rtgscount  + Rertgscount)</td>
-                           
-                           
+                            <td colspan="3">@(  rtgscount + Rertgscount)</td>
+
+
                         </tr>
                         <tr>
-                         
-                            <td colspan="7"></td>
-                           
-                            <td colspan="3">TOTAL RTGS$</td>
+
+                            <td colspan="10"></td>
+
+                            <td colspan="5">TOTAL RTGS$</td>
                             <td colspan="3">@(ustotal + Reustotal + rtgstotal + Rertgstotal)</td>
-                            <td colspan="3">@( uscount + Reuscount + rtgscount  + Rertgscount)</td>
-                            
-                           
+                            <td colspan="3">@( uscount + Reuscount + rtgscount + Rertgscount)</td>
+
+
                         </tr>
                     </tfoot>
                 </table>
@@ -499,7 +516,7 @@
 
 
         function removeSearchBox() {
-            window.location.href = "/Report/ZimnatGrossWrittenPremiumReport";
+            window.location.href = "/Report/AccountsGrossWrittenPremuimReport";
         }
 
         $("#generateExcel").click(function () {

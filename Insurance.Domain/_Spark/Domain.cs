@@ -679,6 +679,7 @@ namespace Insurance.Domain
         public string BranchName { get; set; }
         public string AlmId { get; set; }
         public string Location_Id { get; set; }
+        public int PartnerId { get; set; }
         public bool Status { get; set; }
 
     }
