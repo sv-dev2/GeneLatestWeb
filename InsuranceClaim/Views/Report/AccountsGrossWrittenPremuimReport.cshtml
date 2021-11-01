@@ -151,9 +151,9 @@
                             <th>Registration No</th>
                             <th>Make</th>
                             <th>Model</th>
+
                             <th>Cover Note</th>
                             <th>Policy Dates</th>
-
                             <th>Term Period</th>
                             <th>Cover Type</th>
                             <th>Currency</th>
@@ -163,11 +163,11 @@
                             <th>Premium</th>
                             <th>Stamp Duty</th>
                             <th>ZTSC Levy</th>
-
                             <th>Radio Licence Cost</th>
                             <th>Zinara License Fee</th>
-
                             <th>Grand Premium</th>
+                            <th>ChasisNumber</th>
+                            <th>EngineNumber</th>
 
                         </tr>
                     </thead>
@@ -288,48 +288,51 @@
                             commissionAmountTotal += item.Comission_Amount;
                             radioLicenseCostTotal += Convert.ToDecimal(item.RadioLicenseCost);
                             ZinaraLicenseFee += Convert.ToDecimal(item.Zinara_License_Fee);
-                            <tr>
+                        <tr>
 
 
 
-                                <td>@item.Customer_Name</td>
-                                <td>
+                            <td>@item.Customer_Name</td>
+                            <td>
 
-                                    @if (item.RenewPolicyNumber == null)
-                                    {
-                                        @item.Policy_Number
-                                    }
-                                    else
-                                    {
-                                        @item.RenewPolicyNumber
-                                    }
+                                @if (item.RenewPolicyNumber == null)
+                                {
+                                    @item.Policy_Number
+                                }
+                                else
+                                {
+                                    @item.RenewPolicyNumber
+                                }
 
-                                </td>
-                                <td>@item.RegistrationNo</td>
-                                <td> @item.MakeDescription</td>
-                                <td> @item.ModelDescription</td>
-                                <td>@item.CoverNoteNum</td>
-                                <td>
-                                    @item.Transaction_date
-                                </td>
+                            </td>
+                            <td>@item.RegistrationNo</td>
+                            <td> @item.MakeDescription</td>
+                            <td> @item.ModelDescription</td>
+                            <td>@item.CoverNoteNum</td>
+                            <td>
+                                @item.Transaction_date
+                            </td>
 
-                                <td> @item.Payment_Term</td>
+                            <td> @item.Payment_Term</td>
 
-                                <td>@item.CoverType</td>
-                                <td> @item.Currency </td>
-                                <td>@item.CoverStartDate</td>
-                                <td>@item.CoverEndDate</td>
-                                <td>@item.Sum_Insured</td>
-                                <td>  @item.Premium_due </td>
-                                <td> @item.Stamp_duty</td>
-                                <td> @item.ZTSC_Levy</td>
+                            <td>@item.CoverType</td>
+                            <td> @item.Currency </td>
+                            <td>@item.CoverStartDate</td>
+                            <td>@item.CoverEndDate</td>
+                            <td>@item.Sum_Insured</td>
+                            <td>  @item.Premium_due </td>
+                            <td> @item.Stamp_duty</td>
+                            <td> @item.ZTSC_Levy</td>
 
-                                <td>@item.RadioLicenseCost</td>
-                                <td> @item.Zinara_License_Fee </td>
-                                <td> @item.GrandPremium </td>
+                            <td>@item.RadioLicenseCost</td>
+                            <td> @item.Zinara_License_Fee </td>
+                            <td> @item.GrandPremium </td>
 
-                                @*@item.SourceDetailName*@
-                            </tr>
+                            <td> @item.ChasisNumber </td>
+                            <td> @item.EngineNumber </td>
+
+                            @*@item.SourceDetailName*@
+                        </tr>
                         }
                     </tbody>
                     <tfoot>
@@ -359,6 +362,8 @@
                             <td><strong> @ZinaraLicenseFee </strong> </td>
 
                             <td><strong> @GrandPremiumtotal</strong> </td>
+                            <td></td>
+                            <td></td>
 
 
                         </tr>
@@ -381,39 +386,43 @@
                                 <td></td>
                             </tr>*@
 
+                    <tr>
+
+                        <td colspan="10"></td>
+                        <td colspan="5"><strong>Currency</strong></td>
+                        <td colspan="3"><strong>Amount</strong></td>
+                        <td colspan="3"><strong>Count</strong></td>
+                        <td></td>
+                       
+
+
+                    </tr>
+
+                    <tr>
+                        <td colspan="10"><strong>New Business:</strong></td>
+
+
+                        <td colspan="5">USD</td>
+                        <td colspan="3">@ustotal</td>
+                        <td colspan="3">@uscount</td>
+                        <td></td>
+                     
+
+                    </tr>
+                    <tr>
+
+                        <td colspan="10"></td>
+
+                        <td colspan="5">RTGS$</td>
+                        <td colspan="3">@rtgstotal</td>
+                        <td colspan="3">@rtgscount</td>
+                        <td></td>
+                        
+
+                    </tr>
+
                         <tr>
-
-                            <td colspan="10"></td>
-                            <td colspan="5"><strong>Currency</strong></td>
-                            <td colspan="3"><strong>Amount</strong></td>
-                            <td colspan="3"><strong>Count</strong></td>
-
-
-                        </tr>
-
-                        <tr>
-                            <td colspan="10"><strong>New Business:</strong></td>
-
-
-                            <td colspan="5">USD</td>
-                            <td colspan="3">@ustotal</td>
-                            <td colspan="3">@uscount</td>
-
-
-                        </tr>
-                        <tr>
-
-                            <td colspan="10"></td>
-
-                            <td colspan="5">RTGS$</td>
-                            <td colspan="3">@rtgstotal</td>
-                            <td colspan="3">@rtgscount</td>
-
-
-                        </tr>
-
-                        <tr>
-                            <td colspan="19"></td>
+                            <td colspan="22"></td>
 
                         </tr>
                         <tr>
@@ -422,8 +431,8 @@
                             <td colspan="5">USD</td>
                             <td colspan="3">@Reustotal</td>
                             <td colspan="3">@Reuscount</td>
-
-
+                            <td></td>
+                            
                         </tr>
                         <tr>
 
@@ -432,14 +441,14 @@
                             <td colspan="5">RTGS$</td>
 
                             <td colspan="3">@Rertgstotal</td>
-                            <td colspan="3">@Rertgscount</td>
+                            <td colspan="2">@Rertgscount</td>
 
-
+                            <td></td>
+                            <td></td>
                         </tr>
 
                         <tr>
-                            <td colspan="19"></td>
-
+                            <td colspan="22"></td>
                         </tr>
 
 
@@ -450,7 +459,8 @@
                             <td colspan="5"> USD</td>
                             <td colspan="3">@(ustotal + Reustotal)</td>
                             <td colspan="3"> @(uscount + Reuscount) </td>
-
+                            <td></td>
+                            
 
                         </tr>
                         <tr>
@@ -460,7 +470,8 @@
                             <td colspan="5">RTGS$</td>
                             <td colspan="3">@(rtgstotal + Rertgstotal)</td>
                             <td colspan="3">@(  rtgscount + Rertgscount)</td>
-
+                            <td></td>
+                            
 
                         </tr>
                         <tr>
@@ -470,7 +481,8 @@
                             <td colspan="5">TOTAL RTGS$</td>
                             <td colspan="3">@(ustotal + Reustotal + rtgstotal + Rertgstotal)</td>
                             <td colspan="3">@( uscount + Reuscount + rtgscount + Rertgscount)</td>
-
+                            <td></td>
+                          
 
                         </tr>
                     </tfoot>

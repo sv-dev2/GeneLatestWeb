@@ -6181,7 +6181,7 @@ namespace InsuranceClaim.Controllers
             var query = " select top 500 SummaryDetail.PaymentMethodId, PolicyDetail.Id as policyId, PolicyDetail.PolicyNumber as Policy_Number, Customer.ALMId, case when VehicleDetail.ALMBranchId = 0  then  [dbo].fn_GetUserCallCenterAgent(SummaryDetail.CreatedBy) else [dbo].fn_GetUserALM(VehicleDetail.ALMBranchId) end  as PolicyCreatedBy, Customer.FirstName + ' ' + Customer.LastName as Customer_Name,VehicleDetail.TransactionDate as Transaction_date, ";
             query += "  case when Customer.id=SummaryDetail.CreatedBy then [dbo].fn_GetUserBranch(Customer.id) else [dbo].fn_GetUserBranch(SummaryDetail.CreatedBy) end as BranchName, ";
             query += " VehicleDetail.CoverNote as CoverNoteNum,VehicleDetail.AdministrationAmt, RegistrationNo, VehicleDetail.CoverStartDate, VehicleDetail.CoverEndDate, PaymentMethod.Name as Payment_Mode, PaymentTerm.Name as Payment_Term,CoverType.Name as CoverType, Currency.Name as Currency, ";
-            query += " VehicleDetail.Premium  as Premium_due, VehicleDetail.StampDuty as Stamp_duty, VehicleDetail.ZTSCLevy as ZTSC_Levy, ";
+            query += " VehicleDetail.Premium  as Premium_due, VehicleDetail.StampDuty as Stamp_duty, VehicleDetail.ZTSCLevy as ZTSC_Levy,ChasisNumber,EngineNumber, ";
             query += " cast(VehicleDetail.Premium * 30 / 100 as decimal(10, 2))    as Comission_Amount, VehicleDetail.IncludeRadioLicenseCost, ";
             query += " CASE WHEN IncludeRadioLicenseCost = 1 THEN VehicleDetail.RadioLicenseCost else 0 end as RadioLicenseCost, VehicleDetail.VehicleLicenceFee as Zinara_License_Fee, ";
             query += " VehicleDetail.RenewalDate as PolicyRenewalDate, VehicleDetail.IsActive, VehicleDetail.RenewPolicyNumber as RenewPolicyNumber, ";
@@ -6238,6 +6238,8 @@ namespace InsuranceClaim.Controllers
                     Sum_Insured = x.SumInsured == null ? 0 : Convert.ToDecimal(x.SumInsured),
                     AdministrationAmt = x.AdministrationAmt == null ? 0 : Convert.ToDecimal(x.AdministrationAmt),
                     ReceiptNumber = RecieptNumber(x.policyId, x.RenewPolicyNumber, recieptList),
+                    ChasisNumber= x.ChasisNumber,
+                    EngineNumber = x.EngineNumber
                 }).ToList();
 
 
@@ -6274,6 +6276,8 @@ namespace InsuranceClaim.Controllers
                 model.AdministrationAmt = item.AdministrationAmt;
                 model.CoverStartDate = item.CoverStartDate;
                 model.CoverEndDate = item.CoverEndDate;
+                model.ChasisNumber = item.ChasisNumber;
+                model.EngineNumber = item.EngineNumber;
 
                 //IncludeRadioLicenseCost = x.IncludeRadioLicenseCost,
 
@@ -6337,7 +6341,7 @@ namespace InsuranceClaim.Controllers
             query += " VehicleDetail.CoverNote as CoverNoteNum, PaymentMethod.Name as Payment_Mode, PaymentTerm.Name as Payment_Term,CoverType.Name as CoverType, Currency.Name as Currency, ";
             query += " VehicleDetail.Premium  as Premium_due, VehicleDetail.StampDuty as Stamp_duty, VehicleDetail.ZTSCLevy as ZTSC_Levy, VehicleDetail.AdministrationAmt, ";
             query += " cast(VehicleDetail.Premium * 30 / 100 as decimal(10, 2))    as Comission_Amount, VehicleDetail.IncludeRadioLicenseCost, ";
-            query += " CASE WHEN IncludeRadioLicenseCost = 1 THEN VehicleDetail.RadioLicenseCost else 0 end as RadioLicenseCost, VehicleDetail.VehicleLicenceFee as Zinara_License_Fee, ";
+            query += " CASE WHEN IncludeRadioLicenseCost = 1 THEN VehicleDetail.RadioLicenseCost else 0 end as RadioLicenseCost, VehicleDetail.VehicleLicenceFee as Zinara_License_Fee, ChasisNumber, EngineNumber,";
             query += " VehicleDetail.RenewalDate as PolicyRenewalDate, RegistrationNo, VehicleDetail.IsActive, VehicleDetail.CoverStartDate, VehicleDetail.CoverEndDate, VehicleDetail.RenewPolicyNumber as RenewPolicyNumber, ";
             query += " VehicleDetail.BusinessSourceDetailId, SummaryDetail.id as SummaryDetailId, BusinessSource.Source as BusinessSourceName, SourceDetail.FirstName + ' ' + SourceDetail.LastName as SourceDetailName, VehicleDetail.SumInsured, VehicleMake.MakeDescription , VehicleModel.ModelDescription  from PolicyDetail ";
             query += " join Customer on PolicyDetail.CustomerId = Customer.Id ";
@@ -6409,7 +6413,9 @@ namespace InsuranceClaim.Controllers
                     SummaryDetailId = x.SummaryDetailId,
                     Sum_Insured = x.SumInsured == null ? 0 : Convert.ToDecimal(x.SumInsured),
                     AdministrationAmt = x.AdministrationAmt,
-                    ReceiptNumber = RecieptNumber(x.policyId, x.RenewPolicyNumber, recieptList)
+                    ReceiptNumber = RecieptNumber(x.policyId, x.RenewPolicyNumber, recieptList),
+                    EngineNumber = x.EngineNumber,
+                    ChasisNumber = x.ChasisNumber
                 }).ToList();
 
             if (_model.ReportTypeId == (int)ReportTypeEnum.CallCenter)
@@ -6452,6 +6458,8 @@ namespace InsuranceClaim.Controllers
                 model.AdministrationAmt = item.AdministrationAmt;
                 model.CoverStartDate = item.CoverStartDate;
                 model.CoverEndDate = item.CoverEndDate;
+                model.ChasisNumber = item.ChasisNumber;
+                model.EngineNumber = item.EngineNumber;
                 //IncludeRadioLicenseCost = x.IncludeRadioLicenseCost,
 
                 var index = list.FindIndex(c => c.Policy_Number == item.Policy_Number);

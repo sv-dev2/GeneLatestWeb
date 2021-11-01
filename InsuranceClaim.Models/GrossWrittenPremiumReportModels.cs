@@ -93,6 +93,12 @@ namespace InsuranceClaim.Models
 
         public string MakeDescription { get; set; }
 
+        public string ChasisNumber { get; set; }
+
+        public string EngineNumber { get; set; }
+
+
+
 
     }
 
